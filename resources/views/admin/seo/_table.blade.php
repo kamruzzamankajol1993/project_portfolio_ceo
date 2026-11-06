@@ -1,0 +1,6 @@
+<div class="table-responsive"><table class="module-table table"><thead><tr><th>Page path</th><th>Meta title</th><th>Robots</th><th>Status</th><th class="actions-header">Actions</th></tr></thead><tbody>
+@forelse($pages as $page)
+<tr><td><strong>{{ $page->path }}</strong></td><td>{{ \Illuminate\Support\Str::limit($page->title,48) }}</td><td><small class="ops-muted">{{ $page->robots }}</small></td><td><span class="soft-tag {{ $page->enabled ? 'tag-active':'tag-inactive' }}">{{ $page->enabled ? 'Active':'Disabled' }}</span></td><td class="actions-cell"><div class="row-actions d-flex"><a title="Edit SEO" aria-label="Edit page SEO" class="row-edit action-icon" href="{{ route('admin.seo.index',['tab'=>'pages','edit'=>$page->id]) }}#page-editor"><i class="bi bi-pencil"></i></a><form method="post" action="{{ route('admin.seo.pages.destroy',$page) }}" data-confirm="Delete this page SEO override?">@csrf @method('DELETE')<button title="Delete SEO" aria-label="Delete page SEO" class="row-delete action-icon"><i class="bi bi-trash3"></i></button></form></div></td></tr>
+@empty<tr><td colspan="5" class="text-center py-4">No page SEO records. Add a path to override global metadata.</td></tr>@endforelse
+</tbody></table></div>
+@include('admin.shared._pagination',['paginator'=>$pages])

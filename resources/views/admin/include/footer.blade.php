@@ -1,0 +1,1 @@
+<footer class="dashboard-footer"><span>© {{ date('Y') }} {{ $siteSetting->site_name }}</span><span>Admin management</span></footer>
