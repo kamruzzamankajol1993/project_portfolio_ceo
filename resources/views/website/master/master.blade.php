@@ -6,13 +6,21 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="theme-color" content="#f7faff">
   @include('partials.seo')
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..900&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="{{ asset('public/website/style.css') }}" rel="stylesheet">
   @yield('css')
 </head>
+
+@if(Route::currentRouteName() === 'site.profile.show')
+    <body class="profile-page company-page individual-page">
+@else
 <body>
+    @endif
   @include('website.include.topheader')
   @include('website.include.header')
   @include('website.include.offcanvas')

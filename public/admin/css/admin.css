@@ -9,7 +9,7 @@
   --blue: #1682f8;
   --blue-dark: #0866dc;
   --green: #10b981;
-  --font: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 * { box-sizing: border-box; }
 body { margin: 0; font-family: var(--font); color: var(--ink); }

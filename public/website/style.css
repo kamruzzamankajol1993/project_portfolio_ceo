@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
-
 :root {
   --navy: #092b69;
   --navy-deep: #06245d;
@@ -13,14 +11,14 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--text); background: #fff; font-family: 'DM Sans', Arial, sans-serif; font-size: 13px; }
+body { margin: 0; color: var(--text); background: #fff; font-family: 'Montserrat', Arial, sans-serif; font-size: 13px; }
 a { color: inherit; text-decoration: none; }
 .page-shell { width: min(calc(100% - 40px), 1440px); margin-inline: auto; padding-inline: 0; }
 .btn { border-radius: 8px; font-weight: 700; box-shadow: 0 3px 9px rgba(8, 101, 245, .12); }
 .btn-primary { background: var(--blue); border-color: var(--blue); }
 .btn-primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
 h1, h2, h3 { color: var(--navy-deep); }
-h1, .section-heading h2, .why-banner h2, .submit-banner h2, .spotlight-copy h3 { font-family: 'Playfair Display', Georgia, serif; letter-spacing: -.035em; }
+h1, .section-heading h2, .why-banner h2, .submit-banner h2, .spotlight-copy h3 { font-family: 'Montserrat', sans-serif; letter-spacing: -.035em; }
 .announcement-wrap { padding-top: 3px; background: #fff; }
 .announcement-bar { min-height: 49px; display: flex; align-items: center; gap: 10px; padding: 7px 13px; border: 1px solid #e4edff; border-radius: 9px; background: linear-gradient(95deg, #edf4ff, #eaf2ff); color: var(--navy); }
 .announcement-icon { font-size: 19px; color: #2875f5; }
@@ -85,7 +83,7 @@ h1, .section-heading h2, .why-banner h2, .submit-banner h2, .spotlight-copy h3 {
 .hero-card-sundar img { height: 95px; }
 .hero-card-satya { right: 0; bottom: 5%; width: 26%; transform: rotate(-5deg); z-index: 2; }
 .hero-card-satya img { height: 95px; }
-.hero-note { position: absolute; left: 48%; top: 48%; z-index: 5; color: #1671f2; font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 13px; line-height: 1.2; transform: rotate(-7deg); text-shadow: 0 1px white; }
+.hero-note { position: absolute; left: 48%; top: 48%; z-index: 5; color: #1671f2; font-family: 'Montserrat', sans-serif; font-style: italic; font-size: 13px; line-height: 1.2; transform: rotate(-7deg); text-shadow: 0 1px white; }
 .hero-note i { display: block; font-size: 19px; margin-left: 38px; margin-top: 2px; }
 
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-top: 2px; padding-bottom: 15px; }
@@ -111,7 +109,7 @@ h1, .section-heading h2, .why-banner h2, .submit-banner h2, .spotlight-copy h3 {
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 12px; }
 .section-heading h2 { font-size: 23px; line-height: 1.15; margin: 0 0 4px; font-weight: 700; }
 .section-heading p { color: #647895; font-size: 11px; margin: 0; }
-.section-icon { font-family: 'DM Sans', sans-serif; font-size: 22px; margin-right: 9px; vertical-align: -1px; }
+.section-icon { font-family: 'Montserrat', sans-serif; font-size: 22px; margin-right: 9px; vertical-align: -1px; }
 .section-icon.star { color: #ffb72c; }
 .section-icon.document { color: #438cf6; }
 .section-icon.clock { color: #438cf6; }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reset your password</title>
 </head>
-<body style="margin:0;padding:32px 12px;background:#f4f7fc;font-family:Arial,Helvetica,sans-serif;color:#173566;">
+<body style="margin:0;padding:32px 12px;background:#f4f7fc;font-family:Montserrat,Arial,Helvetica,sans-serif;color:#173566;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;margin:0 auto;background:#ffffff;border:1px solid #e4ecf8;border-radius:14px;overflow:hidden;">
         <tr><td style="padding:28px 32px;background:#082b68;color:#ffffff;font-size:17px;font-weight:700;">{{ $siteSetting->site_name }}</td></tr>
         <tr><td style="padding:34px 32px 20px;">

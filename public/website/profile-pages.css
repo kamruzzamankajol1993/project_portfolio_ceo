@@ -6,7 +6,7 @@
   --profile-line: #e6edf7;
   color: #243f6c;
   background: #fff;
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 13px;
   line-height: 1.55;
 }
@@ -28,7 +28,7 @@
   align-items: center;
   gap: 13px;
   color: var(--profile-navy);
-  font-family: 'DM Sans', Arial, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(17px, 1.15vw, 22px);
   font-weight: 800;
   letter-spacing: -.035em;
@@ -213,8 +213,8 @@
 .individual-intro { grid-area: intro; display: grid; grid-template-columns: minmax(190px, 32%) minmax(0, 1fr); gap: clamp(18px, 2vw, 26px); align-items: start; min-width: 0; }
 .individual-portrait { width: 100%; height: 285px; object-fit: cover; object-position: center 17%; border-radius: 9px; border: 1px solid #e4ebf5; box-shadow: 0 4px 14px rgba(19, 55, 103, .05); }
 .individual-intro-copy { min-width: 0; padding-top: 10px; }
-.individual-name-row h1 { color: var(--profile-navy); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 2.05vw, 36px); font-weight: 700; letter-spacing: -.045em; line-height: 1.12; margin: 0; }
-.individual-title { color: #243f6c; font-family: 'Playfair Display', Georgia, serif; font-size: clamp(14px, 1.2vw, 21px); line-height: 1.35; margin: 6px 0 10px; }
+.individual-name-row h1 { color: var(--profile-navy); font-family: 'Montserrat', sans-serif; font-size: clamp(24px, 2.05vw, 36px); font-weight: 700; letter-spacing: -.045em; line-height: 1.12; margin: 0; }
+.individual-title { color: #243f6c; font-family: 'Montserrat', sans-serif; font-size: clamp(14px, 1.2vw, 21px); line-height: 1.35; margin: 6px 0 10px; }
 .individual-roles { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 9px; color: #627794; font-size: clamp(9px, .66vw, 11px); margin-bottom: 13px; }
 .individual-roles i { color: #9caec5; font-style: normal; }
 .individual-bio { color: #405a7e; font-size: clamp(10px, .73vw, 13px); line-height: 1.6; margin: 0 0 16px; }
@@ -224,12 +224,12 @@
 .individual-meta a { color: var(--profile-blue); }
 .individual-meta a:first-of-type { color: var(--profile-navy); }
 .quote-card { grid-area: quote; min-height: 165px; position: relative; padding: 24px 23px 18px; border: 1px solid #e7eef7; border-radius: 11px; background: linear-gradient(135deg, #fff, #fbfdff); box-shadow: 0 4px 16px rgba(20, 57, 105, .045); }
-.quote-mark { position: absolute; left: 20px; top: 8px; color: #b4c2d6; font-family: Georgia, serif; font-size: 43px; font-weight: 700; line-height: 1; }
-.quote-card blockquote { color: var(--profile-navy); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(16px, 1.22vw, 22px); font-style: italic; line-height: 1.45; margin: 22px 0 10px; }
+.quote-mark { position: absolute; left: 20px; top: 8px; color: #b4c2d6; font-family: 'Montserrat', sans-serif; font-size: 43px; font-weight: 700; line-height: 1; }
+.quote-card blockquote { color: var(--profile-navy); font-family: 'Montserrat', sans-serif; font-size: clamp(16px, 1.22vw, 22px); font-style: italic; line-height: 1.45; margin: 22px 0 10px; }
 .quote-card p { color: #465f83; font-size: 11px; text-align: right; margin: 0; }
 .individual-main { grid-area: main; min-width: 0; }
 .individual-main .profile-section { margin-bottom: 28px; }
-.individual-main .profile-section-title { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(18px, 1.25vw, 23px); }
+.individual-main .profile-section-title { font-family: 'Montserrat', sans-serif; font-size: clamp(18px, 1.25vw, 23px); }
 .individual-story-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(160px, 31%); align-items: center; gap: 20px; }
 .individual-story-layout img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 1px solid #e6edf7; }
 .individual-company-card { display: grid; grid-template-columns: 100px minmax(0, 1fr) auto; gap: 17px; align-items: center; padding: 16px; border: 1px solid #e6edf7; border-radius: 10px; background: #fff; box-shadow: 0 4px 12px rgba(20, 57, 105, .035); }
@@ -261,7 +261,7 @@
 .flag-bangladesh { color: #007a45 !important; }
 .external-links-list li { grid-template-columns: 19px minmax(58px, .6fr) minmax(0, 1.35fr) 12px; min-height: 36px; }
 .entrepreneur-cta { margin-top: 1px; }
-.entrepreneur-cta h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 19px; }
+.entrepreneur-cta h2 { font-family: 'Montserrat', sans-serif; font-size: 19px; }
 
 /* Horizontal profile footer */
 .profile-footer {
