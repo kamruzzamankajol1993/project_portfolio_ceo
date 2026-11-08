@@ -5,8 +5,19 @@
   $isPersonal = old('profile_type', $profile->profile_type ?: 'personal') === 'personal';
   $formLinks = old('links', $version->links?->map(fn($item) => $item->only(['link_type','label','url','icon']))->all() ?: [['link_type'=>'website','label'=>'','url'=>'','icon'=>'']]);
   $formReferences = old('references', $version->references?->map(fn($item) => $item->only(['title','publisher','url','source_date','description']))->all() ?: [['title'=>'','publisher'=>'','url'=>'','source_date'=>'','description'=>'']]);
-  $formSections = old('sections', $version->sections?->map(fn($section) => ['title'=>$section->title,'intro'=>$section->intro,'section_type'=>$section->section_type,'layout'=>$section->layout,'is_visible'=>$section->is_visible,'items'=>$section->items->map(fn($item) => $item->only(['title','subtitle','description','icon','image_path','url','is_visible']))->all()])->all() ?: [['title'=>'','intro'=>'','items'=>[['title'=>'','subtitle'=>'','description'=>'','icon'=>'','url'=>'']]]]);
+  $formSections = old('sections', $version->sections?->reject(fn($section) => str_starts_with($section->section_key, '_editor_'))->map(fn($section) => ['title'=>$section->title,'intro'=>$section->intro,'section_type'=>$section->section_type,'layout'=>$section->layout,'is_visible'=>$section->is_visible,'items'=>$section->items->map(fn($item) => $item->only(['title','subtitle','description','icon','image_path','url','is_visible']))->all()])->all() ?: [['title'=>'','intro'=>'','items'=>[['title'=>'','subtitle'=>'','description'=>'','icon'=>'','url'=>'']]]]);
   $formRelationships = old('relationships', $formRelationships ?? ($version->relationships?->map(fn($item) => $item->only(['related_profile_id','relation_type','position','description']))->all() ?: [['related_profile_id'=>'','relation_type'=>'founder','position'=>'','description'=>'']]));
+  $repeatRows = fn ($key, $stored, $blank) => (($rows = old($key, $stored ?? [])) && is_array($rows)) ? $rows : [$blank];
+  $formCareerTimeline = $repeatRows('career_timeline', $details?->career_timeline, ['year'=>'','title'=>'','organization'=>'','location'=>'','description'=>'']);
+  $formAffiliations = $repeatRows('affiliations', $details?->affiliations, ['company'=>'','position'=>'','period'=>'','company_url'=>'','logo_url'=>'','description'=>'']);
+  $formEducationItems = $repeatRows('education_items', $details?->education_items, ['institution'=>'','degree'=>'','field'=>'','year'=>'','image_url'=>'','details'=>'']);
+  $formAchievementItems = $repeatRows('achievement_items', $details?->achievement_items, ['title'=>'','issuer'=>'','year'=>'','url'=>'','icon'=>'','description'=>'']);
+  $formHighlights = $repeatRows('highlights', $details?->highlights, ['title'=>'','icon'=>'','description'=>'']);
+  $formLeadershipItems = $repeatRows('leadership_items', $details?->leadership_items, ['name'=>'','position'=>'','profile_url'=>'','photo_url'=>'','bio'=>'']);
+  $formServiceItems = $repeatRows('service_items', $details?->service_items, ['title'=>'','icon'=>'','description'=>'']);
+  $formMilestoneItems = $repeatRows('milestone_items', $details?->milestone_items, ['title'=>'','year'=>'','description'=>'']);
+  $formMediaItems = $repeatRows('media_items', $details?->media_items, ['title'=>'','publisher'=>'','date'=>'','url'=>'','thumbnail_url'=>'']);
+  $formGallery = $version->mediaLinks?->where('role', 'gallery')->values() ?? collect();
 @endphp
 <div class="module-heading"><div><div class="eyebrow">PROFILE MANAGEMENT</div><h1><span class="heading-icon"><i class="bi bi-{{ $formMode==='create'?'plus-circle':'pencil-square' }}"></i></span>{{ $formMode==='create'?'Create profile':'Edit profile' }}</h1><p>Create a personal or company profile, optionally assign it to a customer, and publish only when ready.</p></div><a class="module-secondary" href="{{ route('admin.profiles.index') }}"><i class="bi bi-arrow-left"></i> Back to profiles</a></div>
 @if($errors->any())<div class="alert alert-danger"><strong>Please correct the following:</strong><ul class="mb-0 mt-2">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
@@ -90,13 +101,306 @@
     </div>
     </fieldset>
   </div>
+  <div data-admin-type-fields="personal" @if(!$isPersonal) hidden @endif>
+    <fieldset @disabled(!$isPersonal) style="border:0;padding:0;margin:0;min-width:0">
+      <h2 class="settings-title"><i class="bi bi-ui-checks-grid"></i> Personal profile sections</h2>
+      <p class="text-muted small mb-3">These repeatable fields populate the public Career Timeline, Companies, Education, Achievements and Media sections.</p>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Career timeline">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-briefcase me-1 text-primary"></i> Career timeline</h3><p class="text-muted small mb-0">Add dated roles, career stages and milestones shown on the personal profile.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="career_timeline_submitted" value="1">
+      <div id="admin-career_timeline-rows">
+        @foreach($formCareerTimeline as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label>Year / period<input class="form-control" type="text" name="career_timeline[{{ $index }}][year]" value="{{ $row['year'] ?? '' }}"></label>
+            <label>Role / milestone title<input class="form-control" type="text" name="career_timeline[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Organisation<input class="form-control" type="text" name="career_timeline[{{ $index }}][organization]" value="{{ $row['organization'] ?? '' }}"></label>
+            <label>Location<input class="form-control" type="text" name="career_timeline[{{ $index }}][location]" value="{{ $row['location'] ?? '' }}"></label>
+            <label class="wide">Description<textarea class="form-control" name="career_timeline[{{ $index }}][description]" rows="2">{{ $row['description'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-career_timeline-rows" data-admin-template="admin-career_timeline-template"><i class="bi bi-plus-lg me-1"></i>Add career milestone</button>
+      <template id="admin-career_timeline-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label>Year / period<input class="form-control" type="text" name="career_timeline[__INDEX__][year]"></label>
+          <label>Role / milestone title<input class="form-control" type="text" name="career_timeline[__INDEX__][title]"></label>
+          <label>Organisation<input class="form-control" type="text" name="career_timeline[__INDEX__][organization]"></label>
+          <label>Location<input class="form-control" type="text" name="career_timeline[__INDEX__][location]"></label>
+          <label class="wide">Description<textarea class="form-control" name="career_timeline[__INDEX__][description]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Companies & affiliations">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-buildings me-1 text-primary"></i> Companies & affiliations</h3><p class="text-muted small mb-0">List companies, positions, work periods and public company links.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="affiliations_submitted" value="1">
+      <div id="admin-affiliations-rows">
+        @foreach($formAffiliations as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label>Company / organisation<input class="form-control" type="text" name="affiliations[{{ $index }}][company]" value="{{ $row['company'] ?? '' }}"></label>
+            <label>Position / relationship<input class="form-control" type="text" name="affiliations[{{ $index }}][position]" value="{{ $row['position'] ?? '' }}"></label>
+            <label>From – To<input class="form-control" type="text" name="affiliations[{{ $index }}][period]" value="{{ $row['period'] ?? '' }}"></label>
+            <label>Company profile URL<input class="form-control" type="url" name="affiliations[{{ $index }}][company_url]" value="{{ $row['company_url'] ?? '' }}"></label>
+            <label>Company logo URL<input class="form-control" type="url" name="affiliations[{{ $index }}][logo_url]" value="{{ $row['logo_url'] ?? '' }}"></label>
+            <label class="wide">Details<textarea class="form-control" name="affiliations[{{ $index }}][description]" rows="2">{{ $row['description'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-affiliations-rows" data-admin-template="admin-affiliations-template"><i class="bi bi-plus-lg me-1"></i>Add company affiliation</button>
+      <template id="admin-affiliations-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label>Company / organisation<input class="form-control" type="text" name="affiliations[__INDEX__][company]"></label>
+          <label>Position / relationship<input class="form-control" type="text" name="affiliations[__INDEX__][position]"></label>
+          <label>From – To<input class="form-control" type="text" name="affiliations[__INDEX__][period]"></label>
+          <label>Company profile URL<input class="form-control" type="url" name="affiliations[__INDEX__][company_url]"></label>
+          <label>Company logo URL<input class="form-control" type="url" name="affiliations[__INDEX__][logo_url]"></label>
+          <label class="wide">Details<textarea class="form-control" name="affiliations[__INDEX__][description]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Education & qualifications">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-mortarboard me-1 text-primary"></i> Education & qualifications</h3><p class="text-muted small mb-0">Add educational institutions, qualifications and optional institution images.</p></div><span class="badge text-bg-light">Up to 30</span></div>
+      <input type="hidden" name="education_items_submitted" value="1">
+      <div id="admin-education_items-rows">
+        @foreach($formEducationItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label class="wide">Institution<input class="form-control" type="text" name="education_items[{{ $index }}][institution]" value="{{ $row['institution'] ?? '' }}"></label>
+            <label>Degree / qualification<input class="form-control" type="text" name="education_items[{{ $index }}][degree]" value="{{ $row['degree'] ?? '' }}"></label>
+            <label>Field of study<input class="form-control" type="text" name="education_items[{{ $index }}][field]" value="{{ $row['field'] ?? '' }}"></label>
+            <label>Year / period<input class="form-control" type="text" name="education_items[{{ $index }}][year]" value="{{ $row['year'] ?? '' }}"></label>
+            <label class="wide">Institution image URL<input class="form-control" type="url" name="education_items[{{ $index }}][image_url]" value="{{ $row['image_url'] ?? '' }}"></label>
+            <label class="wide">Details<textarea class="form-control" name="education_items[{{ $index }}][details]" rows="2">{{ $row['details'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-education_items-rows" data-admin-template="admin-education_items-template"><i class="bi bi-plus-lg me-1"></i>Add education record</button>
+      <template id="admin-education_items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label class="wide">Institution<input class="form-control" type="text" name="education_items[__INDEX__][institution]"></label>
+          <label>Degree / qualification<input class="form-control" type="text" name="education_items[__INDEX__][degree]"></label>
+          <label>Field of study<input class="form-control" type="text" name="education_items[__INDEX__][field]"></label>
+          <label>Year / period<input class="form-control" type="text" name="education_items[__INDEX__][year]"></label>
+          <label class="wide">Institution image URL<input class="form-control" type="url" name="education_items[__INDEX__][image_url]"></label>
+          <label class="wide">Details<textarea class="form-control" name="education_items[__INDEX__][details]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Awards, publications & recognition">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-trophy me-1 text-primary"></i> Awards, publications & recognition</h3><p class="text-muted small mb-0">Add verified awards, publications, recognitions and source links.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="achievement_items_submitted" value="1">
+      <div id="admin-achievement_items-rows">
+        @foreach($formAchievementItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label class="wide">Achievement title<input class="form-control" type="text" name="achievement_items[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Issuer / publisher<input class="form-control" type="text" name="achievement_items[{{ $index }}][issuer]" value="{{ $row['issuer'] ?? '' }}"></label>
+            <label>Year<input class="form-control" type="text" name="achievement_items[{{ $index }}][year]" value="{{ $row['year'] ?? '' }}"></label>
+            <label>Icon class<input class="form-control" type="text" name="achievement_items[{{ $index }}][icon]" value="{{ $row['icon'] ?? '' }}"></label>
+            <label class="wide">Reference URL<input class="form-control" type="url" name="achievement_items[{{ $index }}][url]" value="{{ $row['url'] ?? '' }}"></label>
+            <label class="wide">Description<textarea class="form-control" name="achievement_items[{{ $index }}][description]" rows="2">{{ $row['description'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-achievement_items-rows" data-admin-template="admin-achievement_items-template"><i class="bi bi-plus-lg me-1"></i>Add achievement</button>
+      <template id="admin-achievement_items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label class="wide">Achievement title<input class="form-control" type="text" name="achievement_items[__INDEX__][title]"></label>
+          <label>Issuer / publisher<input class="form-control" type="text" name="achievement_items[__INDEX__][issuer]"></label>
+          <label>Year<input class="form-control" type="text" name="achievement_items[__INDEX__][year]"></label>
+          <label>Icon class<input class="form-control" type="text" name="achievement_items[__INDEX__][icon]"></label>
+          <label class="wide">Reference URL<input class="form-control" type="url" name="achievement_items[__INDEX__][url]"></label>
+          <label class="wide">Description<textarea class="form-control" name="achievement_items[__INDEX__][description]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Media, interviews & coverage">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-play-btn me-1 text-primary"></i> Media, interviews & coverage</h3><p class="text-muted small mb-0">Add interviews, articles and media coverage with an optional thumbnail.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="media_items_submitted" value="1">
+      <div id="admin-media_items-rows">
+        @foreach($formMediaItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label class="wide">Media / interview title<input class="form-control" type="text" name="media_items[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Publisher / channel<input class="form-control" type="text" name="media_items[{{ $index }}][publisher]" value="{{ $row['publisher'] ?? '' }}"></label>
+            <label>Publication date<input class="form-control" type="date" name="media_items[{{ $index }}][date]" value="{{ $row['date'] ?? '' }}"></label>
+            <label class="wide">Media URL<input class="form-control" type="url" name="media_items[{{ $index }}][url]" value="{{ $row['url'] ?? '' }}"></label>
+            <label class="wide">Thumbnail image URL<input class="form-control" type="url" name="media_items[{{ $index }}][thumbnail_url]" value="{{ $row['thumbnail_url'] ?? '' }}"></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-media_items-rows" data-admin-template="admin-media_items-template"><i class="bi bi-plus-lg me-1"></i>Add media item</button>
+      <template id="admin-media_items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label class="wide">Media / interview title<input class="form-control" type="text" name="media_items[__INDEX__][title]"></label>
+          <label>Publisher / channel<input class="form-control" type="text" name="media_items[__INDEX__][publisher]"></label>
+          <label>Publication date<input class="form-control" type="date" name="media_items[__INDEX__][date]"></label>
+          <label class="wide">Media URL<input class="form-control" type="url" name="media_items[__INDEX__][url]"></label>
+          <label class="wide">Thumbnail image URL<input class="form-control" type="url" name="media_items[__INDEX__][thumbnail_url]"></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    </fieldset>
+  </div>
+  <div data-admin-type-fields="company" @if($isPersonal) hidden @endif>
+    <fieldset @disabled($isPersonal) style="border:0;padding:0;margin:0;min-width:0">
+      <h2 class="settings-title"><i class="bi bi-ui-checks-grid"></i> Company profile sections</h2>
+      <div class="form-grid mb-3">
+        <label class="wide">Values &amp; culture<textarea class="form-control" name="values_culture" rows="3">{{ old('values_culture',$details->values_culture ?? '') }}</textarea><small class="form-text text-muted">This text appears in the company overview and editorial details.</small></label>
+      </div>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Company highlights">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-stars me-1 text-primary"></i> Company highlights</h3><p class="text-muted small mb-0">Short feature cards displayed under the company overview.</p></div><span class="badge text-bg-light">Up to 12</span></div>
+      <input type="hidden" name="highlights_submitted" value="1">
+      <div id="admin-highlights-rows">
+        @foreach($formHighlights as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label>Highlight title<input class="form-control" type="text" name="highlights[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Icon class<input class="form-control" type="text" name="highlights[{{ $index }}][icon]" value="{{ $row['icon'] ?? '' }}"></label>
+            <label class="wide">Description<textarea class="form-control" name="highlights[{{ $index }}][description]" rows="2">{{ $row['description'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-highlights-rows" data-admin-template="admin-highlights-template"><i class="bi bi-plus-lg me-1"></i>Add highlight</button>
+      <template id="admin-highlights-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label>Highlight title<input class="form-control" type="text" name="highlights[__INDEX__][title]"></label>
+          <label>Icon class<input class="form-control" type="text" name="highlights[__INDEX__][icon]"></label>
+          <label class="wide">Description<textarea class="form-control" name="highlights[__INDEX__][description]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Leadership team">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-people me-1 text-primary"></i> Leadership team</h3><p class="text-muted small mb-0">Add founders, directors and key people with optional profile links and photos.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="leadership_items_submitted" value="1">
+      <div id="admin-leadership_items-rows">
+        @foreach($formLeadershipItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label>Person name<input class="form-control" type="text" name="leadership_items[{{ $index }}][name]" value="{{ $row['name'] ?? '' }}"></label>
+            <label>Position / role<input class="form-control" type="text" name="leadership_items[{{ $index }}][position]" value="{{ $row['position'] ?? '' }}"></label>
+            <label class="wide">Profile URL<input class="form-control" type="url" name="leadership_items[{{ $index }}][profile_url]" value="{{ $row['profile_url'] ?? '' }}"></label>
+            <label class="wide">Leader photo URL<input class="form-control" type="url" name="leadership_items[{{ $index }}][photo_url]" value="{{ $row['photo_url'] ?? '' }}"></label>
+            <label class="wide">Short biography<textarea class="form-control" name="leadership_items[{{ $index }}][bio]" rows="2">{{ $row['bio'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-leadership_items-rows" data-admin-template="admin-leadership_items-template"><i class="bi bi-plus-lg me-1"></i>Add leader</button>
+      <template id="admin-leadership_items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label>Person name<input class="form-control" type="text" name="leadership_items[__INDEX__][name]"></label>
+          <label>Position / role<input class="form-control" type="text" name="leadership_items[__INDEX__][position]"></label>
+          <label class="wide">Profile URL<input class="form-control" type="url" name="leadership_items[__INDEX__][profile_url]"></label>
+          <label class="wide">Leader photo URL<input class="form-control" type="url" name="leadership_items[__INDEX__][photo_url]"></label>
+          <label class="wide">Short biography<textarea class="form-control" name="leadership_items[__INDEX__][bio]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Products & services">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-grid me-1 text-primary"></i> Products & services</h3><p class="text-muted small mb-0">Add the products and services displayed on the company page.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="service_items_submitted" value="1">
+      <div id="admin-service_items-rows">
+        @foreach($formServiceItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label>Service / product title<input class="form-control" type="text" name="service_items[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Icon class<input class="form-control" type="text" name="service_items[{{ $index }}][icon]" value="{{ $row['icon'] ?? '' }}"></label>
+            <label class="wide">Description<textarea class="form-control" name="service_items[{{ $index }}][description]" rows="2">{{ $row['description'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-service_items-rows" data-admin-template="admin-service_items-template"><i class="bi bi-plus-lg me-1"></i>Add product or service</button>
+      <template id="admin-service_items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label>Service / product title<input class="form-control" type="text" name="service_items[__INDEX__][title]"></label>
+          <label>Icon class<input class="form-control" type="text" name="service_items[__INDEX__][icon]"></label>
+          <label class="wide">Description<textarea class="form-control" name="service_items[__INDEX__][description]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Achievements & milestones">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-trophy me-1 text-primary"></i> Achievements & milestones</h3><p class="text-muted small mb-0">Add company milestones, awards and major achievements.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="milestone_items_submitted" value="1">
+      <div id="admin-milestone_items-rows">
+        @foreach($formMilestoneItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label>Milestone / achievement<input class="form-control" type="text" name="milestone_items[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Year / date<input class="form-control" type="text" name="milestone_items[{{ $index }}][year]" value="{{ $row['year'] ?? '' }}"></label>
+            <label class="wide">Description<textarea class="form-control" name="milestone_items[{{ $index }}][description]" rows="2">{{ $row['description'] ?? '' }}</textarea></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-milestone_items-rows" data-admin-template="admin-milestone_items-template"><i class="bi bi-plus-lg me-1"></i>Add milestone</button>
+      <template id="admin-milestone_items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label>Milestone / achievement<input class="form-control" type="text" name="milestone_items[__INDEX__][title]"></label>
+          <label>Year / date<input class="form-control" type="text" name="milestone_items[__INDEX__][year]"></label>
+          <label class="wide">Description<textarea class="form-control" name="milestone_items[__INDEX__][description]" rows="2"></textarea></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    <section class="border rounded p-3 mb-4 bg-light-subtle" aria-label="Media, news & coverage">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3"><div><h3 class="h6 mb-1"><i class="bi bi-newspaper me-1 text-primary"></i> Media, news & coverage</h3><p class="text-muted small mb-0">Add articles, interviews and media coverage with optional thumbnails.</p></div><span class="badge text-bg-light">Up to 40</span></div>
+      <input type="hidden" name="media_items_submitted" value="1">
+      <div id="admin-company-media-items-rows">
+        @foreach($formMediaItems as $index => $row)
+          <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+            <label class="wide">Article / media title<input class="form-control" type="text" name="media_items[{{ $index }}][title]" value="{{ $row['title'] ?? '' }}"></label>
+            <label>Publisher<input class="form-control" type="text" name="media_items[{{ $index }}][publisher]" value="{{ $row['publisher'] ?? '' }}"></label>
+            <label>Publication date<input class="form-control" type="date" name="media_items[{{ $index }}][date]" value="{{ $row['date'] ?? '' }}"></label>
+            <label class="wide">Article / media URL<input class="form-control" type="url" name="media_items[{{ $index }}][url]" value="{{ $row['url'] ?? '' }}"></label>
+            <label class="wide">Thumbnail image URL<input class="form-control" type="url" name="media_items[{{ $index }}][thumbnail_url]" value="{{ $row['thumbnail_url'] ?? '' }}"></label>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+          </div>
+        @endforeach
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-admin-add="admin-company-media-items-rows" data-admin-template="admin-company-media-items-template"><i class="bi bi-plus-lg me-1"></i>Add media item</button>
+      <template id="admin-company-media-items-template">
+        <div class="form-grid border rounded p-3 mb-2 bg-white" data-admin-row>
+          <label class="wide">Article / media title<input class="form-control" type="text" name="media_items[__INDEX__][title]"></label>
+          <label>Publisher<input class="form-control" type="text" name="media_items[__INDEX__][publisher]"></label>
+          <label>Publication date<input class="form-control" type="date" name="media_items[__INDEX__][date]"></label>
+          <label class="wide">Article / media URL<input class="form-control" type="url" name="media_items[__INDEX__][url]"></label>
+          <label class="wide">Thumbnail image URL<input class="form-control" type="url" name="media_items[__INDEX__][thumbnail_url]"></label>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove item</button>
+        </div>
+      </template>
+    </section>
+    </fieldset>
+  </div>
   <hr>
+  <section class="border rounded p-3 mb-4">
+    <h2 class="settings-title"><i class="bi bi-images"></i> Profile gallery</h2>
+    <p class="text-muted small">Upload additional public profile or company images. Existing gallery images are retained when you save.</p>
+    @if($formGallery->isNotEmpty())
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        @foreach($formGallery as $galleryLink)
+          @if($galleryLink->media?->url)
+            <img src="{{ $galleryLink->media->url }}" alt="Profile gallery image" style="width:112px;height:82px;object-fit:cover;border-radius:8px;border:1px solid #dbe4f0">
+          @endif
+        @endforeach
+      </div>
+    @endif
+    <label>Upload gallery images<input class="form-control" type="file" name="gallery[]" accept="image/jpeg,image/png,image/webp" multiple></label>
+    <small class="form-text text-muted">JPG, PNG or WebP. Maximum 12 images per save.</small>
+  </section>
   <h2 class="settings-title"><i class="bi bi-share"></i> Profile links</h2>
   <div id="admin-profile-links">
-    @foreach($formLinks as $index => $link)<div class="form-grid border rounded p-3 mb-2" data-admin-row><label>Type<input class="form-control" name="links[{{ $index }}][link_type]" value="{{ $link['link_type'] ?? 'website' }}"></label><label>Label<input class="form-control" name="links[{{ $index }}][label]" value="{{ $link['label'] ?? '' }}"></label><label class="wide">URL<input class="form-control" type="url" name="links[{{ $index }}][url]" value="{{ $link['url'] ?? '' }}"></label><button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove link</button></div>@endforeach
+    @foreach($formLinks as $index => $link)<div class="form-grid border rounded p-3 mb-2" data-admin-row><label>Type<input class="form-control" name="links[{{ $index }}][link_type]" value="{{ $link['link_type'] ?? 'website' }}"></label><label>Label<input class="form-control" name="links[{{ $index }}][label]" value="{{ $link['label'] ?? '' }}"></label><label>Icon class<input class="form-control" name="links[{{ $index }}][icon]" value="{{ $link['icon'] ?? '' }}" placeholder="bi-link-45deg"></label><label class="wide">URL<input class="form-control" type="url" name="links[{{ $index }}][url]" value="{{ $link['url'] ?? '' }}"></label><button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove link</button></div>@endforeach
   </div>
   <button type="button" class="btn btn-sm btn-outline-primary mb-3" data-admin-add="admin-profile-links" data-admin-template="admin-link-template">Add link</button>
-  <template id="admin-link-template"><div class="form-grid border rounded p-3 mb-2" data-admin-row><label>Type<input class="form-control" name="links[__INDEX__][link_type]" value="website"></label><label>Label<input class="form-control" name="links[__INDEX__][label]"></label><label class="wide">URL<input class="form-control" type="url" name="links[__INDEX__][url]"></label><button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove link</button></div></template>
+  <template id="admin-link-template"><div class="form-grid border rounded p-3 mb-2" data-admin-row><label>Type<input class="form-control" name="links[__INDEX__][link_type]" value="website"></label><label>Label<input class="form-control" name="links[__INDEX__][label]"></label><label>Icon class<input class="form-control" name="links[__INDEX__][icon]" placeholder="bi-link-45deg"></label><label class="wide">URL<input class="form-control" type="url" name="links[__INDEX__][url]"></label><button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove link</button></div></template>
   <h2 class="settings-title"><i class="bi bi-journal-check"></i> References</h2>
   <div id="admin-profile-references">
     @foreach($formReferences as $index => $reference)<div class="form-grid border rounded p-3 mb-2" data-admin-row><label>Title<input class="form-control" name="references[{{ $index }}][title]" value="{{ $reference['title'] ?? '' }}"></label><label>Publisher<input class="form-control" name="references[{{ $index }}][publisher]" value="{{ $reference['publisher'] ?? '' }}"></label><label class="wide">URL<input class="form-control" type="url" name="references[{{ $index }}][url]" value="{{ $reference['url'] ?? '' }}"></label><label>Date<input class="form-control" type="date" name="references[{{ $index }}][source_date]" value="{{ $reference['source_date'] ?? '' }}"></label><label class="wide">Description<textarea class="form-control" name="references[{{ $index }}][description]" rows="2">{{ $reference['description'] ?? '' }}</textarea></label><button type="button" class="btn btn-sm btn-outline-danger" data-admin-remove>Remove reference</button></div>@endforeach

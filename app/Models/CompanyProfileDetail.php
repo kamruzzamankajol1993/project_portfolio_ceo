@@ -16,12 +16,13 @@ class CompanyProfileDetail extends Model
         'short_description', 'overview', 'history_background', 'mission', 'vision', 'parent_company',
         'show_public_email', 'show_public_phone', 'accuracy_cta_enabled', 'accuracy_cta_title',
         'accuracy_cta_description', 'accuracy_cta_button_label', 'accuracy_cta_button_url',
-        'accuracy_cta_secondary_label', 'accuracy_cta_secondary_url',
+        'accuracy_cta_secondary_label', 'accuracy_cta_secondary_url', 'values_culture',
+        'highlights', 'leadership_items', 'service_items', 'milestone_items', 'media_items',
     ];
 
     protected function casts(): array
     {
-        return ['founded_year' => 'integer', 'show_public_email' => 'boolean', 'show_public_phone' => 'boolean', 'accuracy_cta_enabled' => 'boolean'];
+        return ['founded_year' => 'integer', 'show_public_email' => 'boolean', 'show_public_phone' => 'boolean', 'accuracy_cta_enabled' => 'boolean', 'highlights' => 'array', 'leadership_items' => 'array', 'service_items' => 'array', 'milestone_items' => 'array', 'media_items' => 'array'];
     }
 
     public function version(): BelongsTo { return $this->belongsTo(ProfileVersion::class, 'profile_version_id'); }

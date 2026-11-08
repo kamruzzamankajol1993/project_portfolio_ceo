@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomepageSetting;
 use App\Models\HomepageSection;
 use App\Models\Profile;
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,12 +19,12 @@ class HomepageManagerController extends Controller
     {
         $heroSettings = $this->settingsForGroup('homepage_hero', [
             'hero_enabled' => true,
-            'hero_eyebrow' => 'PEOPLE • BUSINESSES • IDEAS • IMPACT',
-            'hero_title' => "Discover Entrepreneurs\nWho Shape a Brighter\nTomorrow.",
-            'hero_description' => 'Explore the stories, careers and achievements of entrepreneurs, founders and business leaders from around the world.',
+            'hero_eyebrow' => 'People • Companies • Leadership • Global Impact',
+            'hero_title' => "Discover the\nWorld’s Business\nLeaders.",
+            'hero_description' => 'Search and explore detailed profiles of CEOs, founders and the companies they lead. Accurate. Neutral. Global.',
             'hero_search_button_text' => 'Search',
             'hero_popular_label' => 'Popular searches:',
-            'hero_popular_searches' => ['Elon Musk', 'Jeff Bezos', 'Satya Nadella', 'Startups', 'Fintech'],
+            'hero_popular_searches' => ['Elon Musk', 'Satya Nadella', 'Jeff Bezos', 'Tim Cook', 'Google', 'Tesla'],
             'hero_primary_button_text' => 'Explore Entrepreneurs',
             'hero_primary_button_url' => '#featured',
             'hero_secondary_button_text' => 'Create Your Profile',
@@ -35,15 +36,15 @@ class HomepageManagerController extends Controller
             : (string) $popularSearches;
 
         $searchSettings = $this->settingsForGroup('website_search', [
-            'site_search_placeholder' => 'Search entrepreneurs, companies, or industries...',
+            'site_search_placeholder' => 'Search CEO, company, or keyword...',
         ]);
 
         $statisticsSettings = $this->settingsForGroup('homepage_statistics', [
             'stats_enabled' => true,
-            'stat_1_value' => '12,480+', 'stat_1_label' => 'Entrepreneurs', 'stat_1_caption' => 'Published profiles', 'stat_1_icon' => 'bi-people-fill', 'stat_1_color' => 'blue',
-            'stat_2_value' => '8,230+', 'stat_2_label' => 'Companies', 'stat_2_caption' => 'With founder information', 'stat_2_icon' => 'bi-buildings-fill', 'stat_2_color' => 'blue',
-            'stat_3_value' => '126', 'stat_3_label' => 'Industries', 'stat_3_caption' => 'Business categories', 'stat_3_icon' => 'bi-diagram-3-fill', 'stat_3_color' => 'green',
-            'stat_4_value' => '10,540+', 'stat_4_label' => 'Published Profiles', 'stat_4_caption' => 'Verified and reviewed', 'stat_4_icon' => 'bi-file-earmark-text-fill', 'stat_4_color' => 'blue',
+            'stat_1_value' => null, 'stat_1_label' => 'CEOs', 'stat_1_caption' => 'Published profiles', 'stat_1_icon' => 'bi-people-fill', 'stat_1_color' => 'blue',
+            'stat_2_value' => null, 'stat_2_label' => 'Companies', 'stat_2_caption' => 'With CEO information', 'stat_2_icon' => 'bi-buildings-fill', 'stat_2_color' => 'blue',
+            'stat_3_value' => null, 'stat_3_label' => 'Countries', 'stat_3_caption' => 'Global coverage', 'stat_3_icon' => 'bi-globe', 'stat_3_color' => 'green',
+            'stat_4_value' => null, 'stat_4_label' => 'Industries', 'stat_4_caption' => 'Business sectors', 'stat_4_icon' => 'bi-diagram-3-fill', 'stat_4_color' => 'blue',
         ]);
 
         $whySettings = $this->settingsForGroup('homepage_why', [
@@ -59,8 +60,8 @@ class HomepageManagerController extends Controller
         $submitSettings = $this->settingsForGroup('homepage_submit', [
             'submit_enabled' => true,
             'submit_icon' => 'bi-people-fill',
-            'submit_title' => 'Are You an Entrepreneur?',
-            'submit_description' => 'Submit your professional information for editorial review and become part of a trusted global resource.',
+            'submit_title' => 'Be Part of ' . (SiteSetting::current()->site_name ?: 'CEOWiki'),
+            'submit_description' => 'Help us build a reliable and comprehensive encyclopedia of CEOs and the companies they lead.',
             'submit_button_text' => 'Request Your Profile',
             'submit_button_url' => '/customer-register',
         ]);
@@ -158,7 +159,7 @@ class HomepageManagerController extends Controller
         $this->validateUrl($hero['hero_secondary_button_url'], 'hero_secondary_button_url', true);
         $this->validateUrl(trim($data['submit_button_url'] ?? '/customer-register'), 'submit_button_url', true);
 
-        $siteSearchPlaceholder = trim($data['site_search_placeholder'] ?? '') ?: 'Search entrepreneurs, companies, or industries...';
+        $siteSearchPlaceholder = trim($data['site_search_placeholder'] ?? '') ?: 'Search CEO, company, or keyword...';
 
         $statistics = ['stats_enabled' => $request->boolean('stats_enabled')];
         for ($i = 1; $i <= 4; $i++) {

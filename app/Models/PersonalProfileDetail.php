@@ -16,6 +16,7 @@ class PersonalProfileDetail extends Model
         'occupation', 'public_contact_email', 'public_phone', 'personal_website', 'short_bio', 'about',
         'profile_quote', 'early_life', 'career_entrepreneurship', 'education_summary',
         'awards_publications_recognition', 'show_public_email', 'show_public_phone', 'show_date_of_birth',
+        'career_timeline', 'affiliations', 'education_items', 'achievement_items', 'media_items',
     ];
 
     protected function casts(): array
@@ -25,6 +26,11 @@ class PersonalProfileDetail extends Model
             'show_public_email' => 'boolean',
             'show_public_phone' => 'boolean',
             'show_date_of_birth' => 'boolean',
+            'career_timeline' => 'array',
+            'affiliations' => 'array',
+            'education_items' => 'array',
+            'achievement_items' => 'array',
+            'media_items' => 'array',
         ];
     }
 

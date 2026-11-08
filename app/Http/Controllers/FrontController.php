@@ -7,6 +7,7 @@ use App\Models\HomepageSection;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class FrontController extends Controller
@@ -111,6 +112,56 @@ class FrontController extends Controller
             $homepageRecentProfiles = (clone $publishedProfiles)->limit(6)->get();
         }
 
+        // The new homepage uses a dedicated featured-company row. Keep it data-driven
+        // from published company profiles without introducing hard-coded profile content.
+        $showFeaturedCompanies = $sectionIsEnabled('featured_companies');
+        $homepageFeaturedCompanies = $sectionProfiles('featured_companies')->where('profile_type', Profile::TYPE_COMPANY)->values();
+        if ($showFeaturedCompanies && $homepageFeaturedCompanies->isEmpty() && !$section('featured_companies')) {
+            $homepageFeaturedCompanies = (clone $publishedProfiles)
+                ->where('profile_type', Profile::TYPE_COMPANY)
+                ->limit(8)
+                ->get();
+        }
+
+        $personalLocations = DB::table('profiles')
+            ->join('profile_versions', 'profiles.published_version_id', '=', 'profile_versions.id')
+            ->join('personal_profile_details', 'personal_profile_details.profile_version_id', '=', 'profile_versions.id')
+            ->where('profiles.status', 'published')
+            ->whereNotNull('profiles.published_version_id')
+            ->whereNotNull('profiles.published_at')
+            ->where('profiles.published_at', '<=', now())
+            ->where('profiles.profile_type', Profile::TYPE_PERSONAL)
+            ->pluck('personal_profile_details.location');
+
+        $companyLocations = DB::table('profiles')
+            ->join('profile_versions', 'profiles.published_version_id', '=', 'profile_versions.id')
+            ->join('company_profile_details', 'company_profile_details.profile_version_id', '=', 'profile_versions.id')
+            ->where('profiles.status', 'published')
+            ->whereNotNull('profiles.published_version_id')
+            ->whereNotNull('profiles.published_at')
+            ->where('profiles.published_at', '<=', now())
+            ->where('profiles.profile_type', Profile::TYPE_COMPANY)
+            ->pluck('company_profile_details.headquarters');
+
+        $allHomepageCountryStats = $personalLocations
+            ->merge($companyLocations)
+            ->map(function ($location) {
+                $location = trim((string) $location);
+                $country = $location !== '' ? trim(\Illuminate\Support\Str::afterLast($location, ',')) : '';
+                return $country !== '' ? $country : null;
+            })
+            ->filter()
+            ->countBy()
+            ->sortDesc();
+
+        $homepageCountryStats = $allHomepageCountryStats;
+        $homepageStats = [
+            'ceos' => Profile::published()->where('profile_type', Profile::TYPE_PERSONAL)->count(),
+            'companies' => Profile::published()->where('profile_type', Profile::TYPE_COMPANY)->count(),
+            'countries' => $allHomepageCountryStats->count(),
+            'industries' => \App\Models\Industry::query()->count(),
+        ];
+
         return view('website.homepage.homepage', compact(
             'homepageProfileSections',
             'homepageHeroProfiles',
@@ -122,7 +173,11 @@ class FrontController extends Controller
             'showFeaturedEntrepreneurs',
             'showSpotlights',
             'showFeaturedStory',
-            'showRecentProfiles'
+            'showRecentProfiles',
+            'showFeaturedCompanies',
+            'homepageFeaturedCompanies',
+            'homepageCountryStats',
+            'homepageStats'
         ));
     }
 

@@ -1,0 +1,261 @@
+/*
+ * Shared public-site chrome.
+ * Every public page uses the Homepage header, mobile menu and footer.
+ * Homepage rules remain untouched; this file makes all other routes match them.
+ */
+
+/* Header — match the Homepage's desktop layout. */
+body:not(.home-page) .site-header,
+body.person-page.announcement-hidden .site-header {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 1000;
+  height: 58px !important;
+  min-height: 58px;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid #e7edf5;
+  box-shadow: 0 1px 5px rgba(9,34,77,.025);
+}
+
+body:not(.home-page) .site-header > .container-xl,
+body:not(.home-page) .site-header .container-xl {
+  width: calc(100% - 40px) !important;
+  max-width: 1280px !important;
+  padding-left: 20px !important;
+  padding-right: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body:not(.home-page) .site-header .navbar {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 0 !important;
+  padding: 0;
+}
+
+body:not(.home-page) .site-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 225px;
+  margin: 0;
+}
+
+body:not(.home-page) .site-header .brand-mark.home-brand-mark,
+body:not(.home-page) .offcanvas .brand-mark.home-brand-mark,
+body:not(.home-page) .site-footer .brand-mark.home-brand-mark {
+  display: grid !important;
+  place-items: center;
+  flex: 0 0 43px !important;
+  width: 43px !important;
+  min-width: 43px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 7px;
+  background: linear-gradient(135deg,#07183e,#183a76);
+  box-shadow: none;
+}
+
+body:not(.home-page) .site-header .brand-mark.home-brand-mark img,
+body:not(.home-page) .offcanvas .brand-mark.home-brand-mark img,
+body:not(.home-page) .site-footer .brand-mark.home-brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+body:not(.home-page) .site-header .brand-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.02;
+}
+
+body:not(.home-page) .site-header .brand-name {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.02;
+}
+
+body:not(.home-page) .site-header .brand-tag {
+  margin-top: 3px;
+  font-size: 9px;
+  line-height: 1.05;
+}
+
+body:not(.home-page) .site-header .desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin: 0 auto 0 103px;
+}
+
+body:not(.home-page) .site-header .desktop-nav a {
+  padding: 21px 0 19px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+body:not(.home-page) .site-header .desktop-nav a.active::after,
+body:not(.home-page) .site-header .desktop-nav a:hover::after {
+  bottom: 10px;
+}
+
+body:not(.home-page) .site-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+body:not(.home-page) .site-header .header-search {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 220px;
+  height: auto;
+  margin: 0;
+}
+
+body:not(.home-page) .site-header .header-search .form-control {
+  display: block;
+  height: 37px;
+}
+
+body:not(.home-page) .site-header .header-search i {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  display: block;
+  font-size: 14px;
+  color: #071b4b;
+}
+
+body:not(.home-page) .site-header .header-actions .btn {
+  height: 33px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 13px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+body:not(.home-page) .site-header .header-actions .btn-gold { min-width: 107px; }
+body:not(.home-page) .site-header .header-actions .btn-outline-blue { min-width: 58px; }
+
+/* Footer — match the Homepage's content width, columns and spacing. */
+body:not(.home-page) .site-footer,
+body.account-page .site-footer,
+body.company-page .site-footer,
+body.person-page .site-footer {
+  margin-top: 10px !important;
+  padding: 13px 0 8px !important;
+  border-top: 1px solid #e8eef6;
+  background: #fff;
+}
+
+body:not(.home-page) .site-footer > .container-xl {
+  width: calc(100% - 64px);
+  max-width: 1280px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+body:not(.home-page) .footer-grid,
+body.account-page .account-footer .footer-grid,
+body.company-page .footer-grid,
+body.person-page .footer-grid {
+  display: grid;
+  grid-template-columns: 2fr .7fr 1fr 1fr 1.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+body:not(.home-page) .footer-brand .brand,
+body:not(.home-page) .footer-brand .brand-lockup {
+  min-width: 0;
+}
+
+body:not(.home-page) .footer-brand .brand-name { font-size: 25px; }
+body:not(.home-page) .footer-col h6 { font-size: 11px; margin-bottom: 4px; }
+body:not(.home-page) .footer-col a,
+body:not(.home-page) .footer-col p {
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 2px 0;
+}
+body:not(.home-page) .footer-subscribe { gap: 6px; }
+body:not(.home-page) .footer-subscribe input { height: 37px; font-size: 10px; padding: 7px 9px; }
+body:not(.home-page) .footer-subscribe .btn { font-size: 10px; padding: 7px 10px; }
+body:not(.home-page) .footer-bottom { font-size: 9px; padding-top: 8px; margin-top: 10px; }
+
+/* Tablet navigation and footer columns follow the Homepage breakpoints. */
+@media (max-width: 991.98px) {
+  body:not(.home-page) .site-header { height: 62px !important; min-height: 62px; }
+  body:not(.home-page) .site-header .container-xl {
+    width: calc(100% - 40px) !important;
+    padding-left: 20px !important;
+    padding-right: 0 !important;
+  }
+  body:not(.home-page) .site-header .desktop-nav,
+  body:not(.home-page) .site-header .header-actions { display: none !important; }
+  body:not(.home-page) .site-header .mobile-menu-btn {
+    display: grid !important;
+    place-items: center;
+  }
+  body:not(.home-page) .footer-grid,
+  body.account-page .account-footer .footer-grid,
+  body.company-page .footer-grid,
+  body.person-page .footer-grid {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+  }
+  body:not(.home-page) .footer-brand,
+  body.account-page .account-footer .footer-brand { grid-column: span 3; }
+  body:not(.home-page) .footer-subscribe-col,
+  body.account-page .account-footer .footer-subscribe-col { grid-column: span 2; }
+}
+
+@media (max-width: 767.98px) {
+  body:not(.home-page) .site-header .container-xl {
+    width: calc(100% - 40px) !important;
+    padding-left: 20px !important;
+    padding-right: 0 !important;
+  }
+  body:not(.home-page) .footer-grid,
+  body.account-page .account-footer .footer-grid,
+  body.company-page .footer-grid,
+  body.person-page .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  body:not(.home-page) .footer-brand,
+  body:not(.home-page) .footer-subscribe-col,
+  body.account-page .account-footer .footer-brand,
+  body.account-page .account-footer .footer-subscribe-col { grid-column: 1 / -1; }
+  body:not(.home-page) .footer-bottom,
+  body.account-page .account-footer .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  body:not(.home-page) .site-header .container-xl {
+    width: calc(100% - 28px) !important;
+    padding-left: 14px !important;
+    padding-right: 0 !important;
+  }
+}

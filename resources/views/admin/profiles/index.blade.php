@@ -1,7 +1,17 @@
 @extends('admin.master.master')
 @section('title', request('type') === 'personal' ? 'Individual Profiles' : (request('type') === 'company' ? 'Company Profiles' : 'Profile Management'))
 @section('body')
-<div class="module-heading"><div><div class="eyebrow">PROFILE MANAGEMENT</div><h1><span class="heading-icon"><i class="bi bi-person-vcard"></i></span>{{ request('type') === 'personal' ? 'Individual Profiles' : (request('type') === 'company' ? 'Company Profiles' : 'All Profiles') }}</h1><p>Manage {{ request('type') === 'personal' ? 'individual' : (request('type') === 'company' ? 'company' : 'personal and company') }} profiles, assign customers, review versions and control publication.</p></div><a class="module-btn" href="{{ route('admin.profiles.create') }}"><i class="bi bi-plus-lg"></i> Create profile</a></div>
+<div class="module-heading">
+  <div><div class="eyebrow">PROFILE MANAGEMENT</div><h1><span class="heading-icon"><i class="bi bi-person-vcard"></i></span>{{ request('type') === 'personal' ? 'Individual Profiles' : (request('type') === 'company' ? 'Company Profiles' : 'All Profiles') }}</h1><p>Manage {{ request('type') === 'personal' ? 'individual' : (request('type') === 'company' ? 'company' : 'personal and company') }} profiles, assign customers, review versions and control publication.</p></div>
+  <div class="d-flex flex-wrap gap-2 align-items-center">
+    @if(request('type') !== 'company')
+      <a class="module-btn" href="{{ route('admin.profiles.create', ['type' => 'personal']) }}"><i class="bi bi-person-plus"></i> Add Personal Profile</a>
+    @endif
+    @if(request('type') !== 'personal')
+      <a class="module-btn" href="{{ route('admin.profiles.create', ['type' => 'company']) }}"><i class="bi bi-building"></i> Add Company Profile</a>
+    @endif
+  </div>
+</div>
 <div class="ops-stats">
   <div class="ops-stat"><i class="bi bi-collection"></i><div><strong>{{ number_format($stats['total']) }}</strong><span>Total profiles</span></div></div>
   <div class="ops-stat mint"><i class="bi bi-globe2"></i><div><strong>{{ number_format($stats['published']) }}</strong><span>Published</span></div></div>
@@ -22,7 +32,9 @@
     @forelse($profiles as $profile)
       @php
         $pending = $profile->latestVersion?->review_status === 'pending';
-        $details = $profile->profile_type === 'personal' ? $profile->publishedVersion?->personalDetails : $profile->publishedVersion?->companyDetails;
+        $details = $profile->profile_type === 'personal'
+            ? ($profile->publishedVersion?->personalDetails ?? $profile->latestVersion?->personalDetails)
+            : ($profile->publishedVersion?->companyDetails ?? $profile->latestVersion?->companyDetails);
         $name = $profile->profile_type === 'personal' ? ($details?->full_name ?? $profile->slug) : ($details?->company_name ?? $profile->slug);
       @endphp
       <tr><td><strong>{{ $name }}</strong><small class="d-block text-muted">/{{ $profile->slug }}</small></td><td><span class="soft-tag">{{ ucfirst($profile->profile_type) }}</span></td><td>@if($pending)<span class="soft-tag tag-violet">Pending review</span>@elseif($profile->latestVersion?->review_status==='changes_requested')<span class="soft-tag tag-inactive">Correction requested</span>@elseif($profile->status==='published')<span class="soft-tag tag-active">Published</span>@else<span class="soft-tag tag-inactive">Draft</span>@endif</td><td>{{ $profile->customerAccess->first()?->customer?->name ?? $profile->createdByCustomer?->name ?? '—' }}</td><td>{{ $profile->published_at?->format('d M Y') ?? '—' }}</td><td>{{ $profile->latestVersion?->version_number ? 'v'.$profile->latestVersion->version_number.' · '.str($profile->latestVersion->review_status)->replace('_',' ')->title() : '—' }}</td><td class="actions-cell"><div class="d-flex justify-content-end flex-wrap gap-2">@if($pending)<a class="btn btn-sm btn-primary" href="{{ route('admin.profiles.review',$profile->latestVersion) }}">Review</a>@else<a class="btn btn-sm btn-outline-primary" href="{{ route('admin.profiles.edit',$profile) }}">Edit</a>@endif<a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.profiles.history',$profile) }}">History</a>@if($profile->status==='published')<a class="btn btn-sm btn-light" href="{{ $profile->publicUrl() }}" target="_blank" rel="noopener">View</a>@endif</div></td></tr>

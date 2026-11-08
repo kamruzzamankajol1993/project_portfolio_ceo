@@ -14,7 +14,9 @@
       @can('profiles.manage')
         <a class="side-link {{ request()->routeIs('admin.profiles.submissions','admin.profiles.review') ? 'active' : '' }}" href="{{ route('admin.profiles.submissions') }}"><i class="bi bi-file-earmark-check"></i><span>Profile Submissions</span></a>
         <a class="side-link {{ request()->routeIs('admin.profiles.individual') ? 'active' : '' }}" href="{{ route('admin.profiles.individual') }}"><i class="bi bi-person-vcard"></i><span>Individual Profiles</span></a>
+        <a class="side-link {{ request()->routeIs('admin.profiles.create') && request('type') === 'personal' ? 'active' : '' }}" href="{{ route('admin.profiles.create', ['type' => 'personal']) }}"><i class="bi bi-person-plus"></i><span>Add Personal Profile</span></a>
         <a class="side-link {{ request()->routeIs('admin.profiles.companies') ? 'active' : '' }}" href="{{ route('admin.profiles.companies') }}"><i class="bi bi-buildings"></i><span>Company Profiles</span></a>
+        <a class="side-link {{ request()->routeIs('admin.profiles.create') && request('type') === 'company' ? 'active' : '' }}" href="{{ route('admin.profiles.create', ['type' => 'company']) }}"><i class="bi bi-building"></i><span>Add Company Profile</span></a>
         <a class="side-link {{ request()->routeIs('admin.profiles.revision-history','admin.profiles.history') ? 'active' : '' }}" href="{{ route('admin.profiles.revision-history') }}"><i class="bi bi-clock-history"></i><span>Revision History</span></a>
         <a class="side-link {{ request()->routeIs('admin.profiles.verification-center') ? 'active' : '' }}" href="{{ route('admin.profiles.verification-center') }}"><i class="bi bi-patch-check"></i><span>Verification Center</span></a>
         <a class="side-link {{ request()->routeIs('admin.profiles.index','admin.profiles.create','admin.profiles.edit') ? 'active' : '' }}" href="{{ route('admin.profiles.index') }}"><i class="bi bi-collection"></i><span>All Profiles</span></a>

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('site.settings', function () {
-            $defaults = ['site_name' => config('app.name', 'EntrepreneurWiki')];
+            $defaults = ['site_name' => 'CEOWiki'];
 
             try {
                 if (!Schema::hasTable('site_settings')) {
@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('website.*', function ($view): void {
-            $siteName = app('site.settings')->site_name ?: 'EntrepreneurWiki';
+            $siteName = app('site.settings')->site_name ?: 'CEOWiki';
             $defaults = [
                 'announcement_enabled' => true,
                 'announcement_label' => 'ANNOUNCEMENT',
@@ -84,26 +84,26 @@ class AppServiceProvider extends ServiceProvider
 
             $heroDefaults = [
                 'hero_enabled' => true,
-                'hero_eyebrow' => 'PEOPLE • BUSINESSES • IDEAS • IMPACT',
-                'hero_title' => "Discover Entrepreneurs\nWho Shape a Brighter\nTomorrow.",
-                'hero_description' => 'Explore the stories, careers and achievements of entrepreneurs, founders and business leaders from around the world.',
+                'hero_eyebrow' => 'People • Companies • Leadership • Global Impact',
+                'hero_title' => "Discover the\nWorld’s Business\nLeaders.",
+                'hero_description' => 'Search and explore detailed profiles of CEOs, founders and the companies they lead. Accurate. Neutral. Global.',
                 'hero_search_button_text' => 'Search',
                 'hero_popular_label' => 'Popular searches:',
-                'hero_popular_searches' => ['Elon Musk', 'Jeff Bezos', 'Satya Nadella', 'Startups', 'Fintech'],
+                'hero_popular_searches' => ['Elon Musk', 'Satya Nadella', 'Jeff Bezos', 'Tim Cook', 'Google', 'Tesla'],
                 'hero_primary_button_text' => 'Explore Entrepreneurs',
                 'hero_primary_button_url' => '#featured',
                 'hero_secondary_button_text' => 'Create Your Profile',
                 'hero_secondary_button_url' => '/customer-register',
             ];
             $searchDefaults = [
-                'site_search_placeholder' => 'Search entrepreneurs, companies, or industries...',
+                'site_search_placeholder' => 'Search CEO, company, or keyword...',
             ];
             $statisticsDefaults = [
                 'stats_enabled' => true,
-                'stat_1_value' => '12,480+', 'stat_1_label' => 'Entrepreneurs', 'stat_1_caption' => 'Published profiles', 'stat_1_icon' => 'bi-people-fill', 'stat_1_color' => 'blue',
-                'stat_2_value' => '8,230+', 'stat_2_label' => 'Companies', 'stat_2_caption' => 'With founder information', 'stat_2_icon' => 'bi-buildings-fill', 'stat_2_color' => 'blue',
-                'stat_3_value' => '126', 'stat_3_label' => 'Industries', 'stat_3_caption' => 'Business categories', 'stat_3_icon' => 'bi-diagram-3-fill', 'stat_3_color' => 'green',
-                'stat_4_value' => '10,540+', 'stat_4_label' => 'Published Profiles', 'stat_4_caption' => 'Verified and reviewed', 'stat_4_icon' => 'bi-file-earmark-text-fill', 'stat_4_color' => 'blue',
+                'stat_1_value' => null, 'stat_1_label' => 'CEOs', 'stat_1_caption' => 'Published profiles', 'stat_1_icon' => 'bi-people-fill', 'stat_1_color' => 'blue',
+                'stat_2_value' => null, 'stat_2_label' => 'Companies', 'stat_2_caption' => 'With CEO information', 'stat_2_icon' => 'bi-buildings-fill', 'stat_2_color' => 'blue',
+                'stat_3_value' => null, 'stat_3_label' => 'Countries', 'stat_3_caption' => 'Global coverage', 'stat_3_icon' => 'bi-globe', 'stat_3_color' => 'green',
+                'stat_4_value' => null, 'stat_4_label' => 'Industries', 'stat_4_caption' => 'Business sectors', 'stat_4_icon' => 'bi-diagram-3-fill', 'stat_4_color' => 'blue',
             ];
             $whyDefaults = [
                 'why_enabled' => true,
@@ -117,9 +117,9 @@ class AppServiceProvider extends ServiceProvider
             $submitDefaults = [
                 'submit_enabled' => true,
                 'submit_icon' => 'bi-people-fill',
-                'submit_title' => 'Are You an Entrepreneur?',
-                'submit_description' => 'Submit your professional information for editorial review and become part of a trusted global resource.',
-                'submit_button_text' => 'Request Your Profile',
+                'submit_title' => 'Be Part of ' . $siteName,
+                'submit_description' => 'Help us build a reliable and comprehensive encyclopedia of CEOs and the companies they lead.',
+                'submit_button_text' => 'Request a Profile',
                 'submit_button_url' => '/customer-register',
             ];
 
@@ -155,12 +155,12 @@ class AppServiceProvider extends ServiceProvider
                 if ($value === null) {
                     $heroDefaults[$key] = match ($key) {
                         'hero_enabled' => true,
-                        'hero_eyebrow' => 'PEOPLE • BUSINESSES • IDEAS • IMPACT',
-                        'hero_title' => "Discover Entrepreneurs\nWho Shape a Brighter\nTomorrow.",
-                        'hero_description' => 'Explore the stories, careers and achievements of entrepreneurs, founders and business leaders from around the world.',
+                        'hero_eyebrow' => 'People • Companies • Leadership • Global Impact',
+                        'hero_title' => "Discover the\nWorld’s Business\nLeaders.",
+                        'hero_description' => 'Search and explore detailed profiles of CEOs, founders and the companies they lead. Accurate. Neutral. Global.',
                         'hero_search_button_text' => 'Search',
                         'hero_popular_label' => 'Popular searches:',
-                        'hero_popular_searches' => ['Elon Musk', 'Jeff Bezos', 'Satya Nadella', 'Startups', 'Fintech'],
+                        'hero_popular_searches' => ['Elon Musk', 'Satya Nadella', 'Jeff Bezos', 'Tim Cook', 'Google', 'Tesla'],
                         'hero_primary_button_text' => 'Explore Entrepreneurs',
                         'hero_primary_button_url' => '#featured',
                         'hero_secondary_button_text' => 'Create Your Profile',
@@ -178,7 +178,7 @@ class AppServiceProvider extends ServiceProvider
             }
             foreach ($searchDefaults as $key => $value) {
                 if ($value === null || $value === '') {
-                    $searchDefaults[$key] = 'Search entrepreneurs, companies, or industries...';
+                    $searchDefaults[$key] = 'Search CEO, company, or keyword...';
                 }
             }
 

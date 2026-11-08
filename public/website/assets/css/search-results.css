@@ -1,0 +1,19 @@
+.site-search-box{position:relative}
+.search-results-dropdown{position:absolute;z-index:1200;top:calc(100% + 7px);left:0;width:100%;max-height:360px;overflow-y:auto;border:1px solid #dce7f7;border-radius:11px;background:#fff;box-shadow:0 16px 38px rgba(12,43,91,.16);padding:6px}
+.search-results-dropdown[hidden]{display:none!important}
+.search-results-heading{padding:8px 10px 7px;color:#7788a2;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.search-result-item{display:flex;flex-direction:column;gap:3px;padding:10px 11px;border-radius:8px;color:#173566;transition:background .15s ease,transform .15s ease}
+.search-result-item+.search-result-item{border-top:1px solid #f0f3f8}
+.search-result-item:hover,.search-result-item:focus-visible{background:#f1f6ff;color:#071b4b;outline:none}
+.search-result-type{align-self:flex-start;border-radius:20px;background:#eaf2ff;color:#0759d9;padding:3px 7px;font-size:9px;font-weight:800;line-height:1.2}
+.search-result-title{color:#102f65;font-size:12px;font-weight:800}
+.search-result-subtitle{color:#526987;font-size:10px}
+.search-result-description{color:#7a8aa2;font-size:10px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:991.98px){.header-search{width:100%}}
+@media(max-width:575.98px){.search-results-dropdown{max-height:300px}}
+
+.mobile-search-box form{position:relative}
+.mobile-search-box .form-control{width:100%;height:40px;border:1px solid #dce5f2;border-radius:7px;padding:8px 11px;font-size:12px}
+.search-result-message{padding:11px 10px;color:#7587a2;font-size:10px;line-height:1.5}
+.search-result-message.is-error{color:#b54a4a}
+.search-result-message.is-loading{color:#315d9b}

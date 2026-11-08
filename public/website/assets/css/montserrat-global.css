@@ -1,0 +1,38 @@
+/*
+ * CEOWiki global typography
+ * Montserrat is the single text family across public pages, customer accounts,
+ * admin pages, authentication screens, and embedded tools.
+ * Icon font classes are intentionally excluded so Bootstrap Icons and other
+ * icon libraries keep their own glyph fonts.
+ */
+:root {
+  --font: 'Montserrat', sans-serif;
+  --sans: 'Montserrat', sans-serif;
+  --serif: 'Montserrat', sans-serif;
+  --bs-body-font-family: 'Montserrat', sans-serif;
+  --bs-font-sans-serif: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+html body :not(.bi):not(.fa):not(.fas):not(.far):not(.fab):not(.material-icons):not(.material-symbols-outlined):not(.material-symbols-rounded):not(.material-symbols-sharp):not(.fa-solid):not(.fa-regular):not(.fa-brands):not(.icon):not([class^='icon-']):not([class*=' icon-']):not(svg) {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Form controls and rich-text editors sometimes set their own font stacks. */
+html body input,
+html body textarea,
+html body select,
+html body button,
+html body option,
+html body .form-control,
+html body .form-select,
+html body .choices,
+html body .choices__inner,
+html body .note-editor,
+html body .note-editable {
+  font-family: 'Montserrat', sans-serif !important;
+}

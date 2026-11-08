@@ -1,0 +1,893 @@
+/*
+ * Homepage-matched shared chrome for legacy content and customer account pages.
+ *
+ * Important: this file is loaded only when the route uses the legacy content
+ * layout (profile/company directories, About, Contact, legal pages, etc.).
+ * Company/person detail pages and the Homepage keep their existing reference
+ * CSS in style.css and are deliberately not overridden here.
+ */
+body:is(.legacy-public-page, .account-page) {
+  --chrome-navy: #071b4b;
+  --chrome-blue: #0868f7;
+  --chrome-gold: #d89422;
+  --chrome-line: #e4ebf5;
+  padding-top: 58px;
+}
+
+/* =========================
+   Shared Homepage header
+   ========================= */
+body:is(.legacy-public-page, .account-page) .site-header {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;
+  z-index: 1100 !important;
+  width: 100%;
+  height: 58px !important;
+  min-height: 58px !important;
+  background: rgba(255,255,255,.985) !important;
+  border-bottom: 1px solid #e8edf5 !important;
+  box-shadow: 0 1px 5px rgba(9,34,77,.035) !important;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header > .container-xl {
+  display: block;
+  width: calc(100% - 40px) !important;
+  max-width: 1280px !important;
+  height: 100%;
+  padding: 0 0 0 20px !important;
+  margin: 0 auto;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .navbar {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0;
+  flex-wrap: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-width: 225px;
+  max-width: 260px;
+  margin: 0;
+  padding: 0;
+  color: var(--chrome-navy);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand:hover {
+  color: var(--chrome-navy);
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand-mark.home-brand-mark,
+body:is(.legacy-public-page, .account-page) #siteMenu .brand-mark.home-brand-mark,
+body:is(.legacy-public-page, .account-page) .site-footer .brand-mark.home-brand-mark {
+  display: block !important;
+  flex: 0 0 50px !important;
+  width: 50px !important;
+  min-width: 50px !important;
+  height: 45px !important;
+  min-height: 45px !important;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand-mark.home-brand-mark img,
+body:is(.legacy-public-page, .account-page) #siteMenu .brand-mark.home-brand-mark img,
+body:is(.legacy-public-page, .account-page) .site-footer .brand-mark.home-brand-mark img {
+  display: block;
+  width: 50px !important;
+  height: 45px !important;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand-copy,
+body:is(.legacy-public-page, .account-page) .site-footer .brand-copy,
+body:is(.legacy-public-page, .account-page) #siteMenu .brand-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  line-height: 1.02;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand-name {
+  display: block;
+  margin: 0;
+  color: #071947;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand-name span,
+body:is(.legacy-public-page, .account-page) .site-footer .brand-name span,
+body:is(.legacy-public-page, .account-page) #siteMenu .brand-name span {
+  color: #d89422;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .brand-tag {
+  display: block;
+  margin-top: 3px;
+  color: #29436f;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .desktop-nav {
+  display: flex !important;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+  min-width: 0;
+  margin: 0 auto 0 93px;
+  padding: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .desktop-nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 21px 0 19px;
+  color: #10214c;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .desktop-nav a:hover,
+body:is(.legacy-public-page, .account-page) .site-header .desktop-nav a.active {
+  color: #10214c;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .desktop-nav a.active::after,
+body:is(.legacy-public-page, .account-page) .site-header .desktop-nav a:hover::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: #d89422;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-actions {
+  display: flex !important;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 0 1px 0 auto;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search {
+  position: relative;
+  z-index: 20;
+  display: block;
+  flex: 0 0 38px;
+  width: 38px !important;
+  height: 37px;
+  margin: 0 13px 0 0;
+  transition: flex-basis .24s ease, width .24s ease;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search.is-open {
+  flex-basis: 220px;
+  width: 220px !important;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search .header-search-toggle {
+  position: absolute;
+  z-index: 2;
+  inset: 0 auto 0 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 37px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--chrome-navy);
+  cursor: pointer;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search .header-search-toggle:hover {
+  background: #f1f6ff;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search .header-search-toggle i {
+  position: static !important;
+  display: block !important;
+  color: var(--chrome-navy);
+  font-size: 17px;
+  line-height: 1;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search .form-control {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: block !important;
+  width: 220px;
+  height: 37px;
+  padding: 6px 10px 6px 42px;
+  border: 1px solid #dce5f2;
+  border-radius: 7px;
+  background: #fff;
+  color: #52688f;
+  font-size: 11px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search.is-open .form-control {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-search .form-control:focus {
+  border-color: #9abcf2;
+  box-shadow: 0 0 0 3px rgba(8,104,247,.08);
+  outline: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .header-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 33px;
+  padding: 7px 13px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .btn-outline-blue {
+  min-width: 58px;
+  border: 1px solid #b9d4ff;
+  background: #f7fbff;
+  color: #0868f7;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .btn-outline-blue:hover {
+  border-color: #8bb8ff;
+  background: #edf5ff;
+  color: #064fd1;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .btn-gold {
+  min-width: 107px;
+  border: 0;
+  background: linear-gradient(135deg,#e7a63b,#c98216);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(199,132,29,.15);
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .btn-gold:hover {
+  background: #c98216;
+  color: #fff;
+}
+
+body:is(.legacy-public-page, .account-page) .site-header .mobile-menu-btn {
+  display: none !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid #dce5f2;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--chrome-navy);
+  font-size: 22px;
+}
+
+/* Homepage mobile menu, isolated from any in-page section navigation canvas. */
+body:is(.legacy-public-page, .account-page) #siteMenu {
+  --bs-offcanvas-width: min(88vw, 360px);
+  width: min(88vw, 360px);
+  border: 0;
+  background: #fff;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e4ebf5;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--chrome-navy);
+  text-decoration: none;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .brand-name {
+  color: #071947;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .brand-tag {
+  display: block;
+  margin-top: 3px;
+  color: #29436f;
+  font-size: 8px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-body {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 22px;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-search-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 14px !important;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-search-box form {
+  display: flex;
+  width: 100%;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-search-box .form-control {
+  width: 100%;
+  height: 39px;
+  border: 1px solid #dce5f2;
+  border-radius: 7px;
+  padding: 7px 11px;
+  color: #52688f;
+  font-size: 11px;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 10px;
+  border-bottom: 1px solid #eef2f8;
+  border-radius: 0;
+  color: var(--chrome-navy);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-nav-link i {
+  color: #6b83a8;
+  font-size: 15px;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-nav-link.active {
+  border-radius: 8px;
+  background: #f2f7ff;
+  color: #0868f7;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .mobile-nav-link.active i {
+  color: #0868f7;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: none;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-actions .btn-outline-blue {
+  border: 1px solid #b9d4ff;
+  background: #f7fbff;
+  color: #0868f7;
+}
+
+body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-actions .btn-gold {
+  border: 0;
+  background: linear-gradient(135deg,#e7a63b,#c98216);
+  color: #fff;
+}
+
+/* =========================
+   Shared Homepage footer
+   ========================= */
+body:is(.legacy-public-page, .account-page) .site-footer {
+  display: block !important;
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 10px 0 0 !important;
+  padding: 25px 0 22px !important;
+  border: 0;
+  border-top: 1px solid #e8eef6;
+  background: #fff !important;
+  color: #12224b;
+  box-shadow: none;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer > .container-xl {
+  display: block;
+  width: calc(100% - 64px) !important;
+  max-width: 1280px !important;
+  padding: 0 !important;
+  margin: 0 auto;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-grid {
+  display: grid !important;
+  grid-template-columns: 263px 87px 133px 129px minmax(0,1fr);
+  align-items: start;
+  gap: 18px;
+  width: 100%;
+  padding: 0 3px 0 8px;
+  margin: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-brand {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  color: var(--chrome-navy);
+  text-decoration: none;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand-name {
+  display: block;
+  margin: 0;
+  color: #071947;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1.2px;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand-tag {
+  display: block;
+  margin-top: 3px;
+  color: #29436f;
+  font-size: 9px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-note {
+  color: #7b8eac;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .footer-note {
+  display: block;
+  max-width: 235px;
+  margin: 9px 0 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-col h6 {
+  margin: 0 0 4px;
+  color: #071b4b;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-col a,
+body:is(.legacy-public-page, .account-page) .site-footer .footer-col p {
+  display: block;
+  margin: 2px 0;
+  color: #526a93;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-col a:hover {
+  color: #0868f7;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe-col {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe-col h6 {
+  margin: 0 0 4px;
+  color: #071b4b;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe-col p {
+  margin: 0 0 7px;
+  color: #526a93;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  width: 100%;
+  height: 37px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe input[type="email"] {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  height: 37px;
+  margin: 0;
+  padding: 7px 9px;
+  border: 1px solid #dce5f2;
+  border-radius: 6px;
+  outline: 0;
+  background: #fff;
+  color: #253d63;
+  font-size: 10px;
+  box-shadow: none;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe input[type="email"]:focus {
+  border-color: #9abcf2;
+  box-shadow: 0 0 0 3px rgba(8,104,247,.08);
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe input[name="website"] {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe .btn,
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 37px;
+  margin: 0;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #0868f7;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe .btn:hover,
+body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe button:hover {
+  background: #0055d8;
+  color: #fff;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom {
+  display: flex !important;
+  grid-column: auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid #edf1f7;
+  color: #7b8eac;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom > span {
+  color: #7b8eac;
+  font-size: 9px;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 23px;
+  min-width: 0;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom-right .footer-note {
+  font-size: 9px;
+  color: #7b8eac;
+  white-space: nowrap;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .social-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 17px;
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  color: #071b4b;
+  font-size: 14px;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: #071b4b;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: none;
+  transform: none;
+  transition: color .15s ease;
+}
+
+body:is(.legacy-public-page, .account-page) .site-footer .social-links a:hover {
+  background: transparent !important;
+  color: #0868f7;
+  transform: none;
+}
+
+/* =========================
+   Responsive header/footer
+   ========================= */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-grid {
+    grid-template-columns: 263px 87px 133px 129px minmax(0,1fr);
+    gap: 18px;
+    padding: 0 3px 0 8px;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe .btn,
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe button {
+    min-width: 64px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  body:is(.legacy-public-page, .account-page) { padding-top: 62px; }
+
+  body:is(.legacy-public-page, .account-page) .site-header {
+    height: 62px !important;
+    min-height: 62px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header > .container-xl {
+    width: calc(100% - 32px) !important;
+    padding: 0 !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .desktop-nav,
+  body:is(.legacy-public-page, .account-page) .site-header .header-actions {
+    display: none !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .brand-mark.home-brand-mark {
+    flex-basis: 46px !important;
+    width: 46px !important;
+    min-width: 46px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .brand-mark.home-brand-mark img {
+    width: 46px !important;
+    height: 42px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .brand-name { font-size: 25px; }
+
+  body:is(.legacy-public-page, .account-page) .site-header .mobile-menu-btn {
+    display: inline-flex !important;
+    margin-left: auto;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-grid {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 16px;
+    padding: 0;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-brand { grid-column: 1 / -1; }
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe-col { grid-column: span 2; }
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom-right {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom-right .footer-note {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 767.98px) {
+  body:is(.legacy-public-page, .account-page) { padding-top: 58px; }
+
+  body:is(.legacy-public-page, .account-page) .site-header {
+    height: 58px !important;
+    min-height: 58px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header > .container-xl {
+    width: calc(100% - 28px) !important;
+    padding: 0 !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .brand-mark.home-brand-mark {
+    flex-basis: 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .brand-mark.home-brand-mark img {
+    width: 40px !important;
+    height: 38px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-header .brand { min-width: 0; }
+  body:is(.legacy-public-page, .account-page) .site-header .brand-name { font-size: 23px; }
+  body:is(.legacy-public-page, .account-page) .site-header .brand-tag { font-size: 8px; }
+
+  body:is(.legacy-public-page, .account-page) .site-footer {
+    margin-top: 10px !important;
+    padding: 16px 0 10px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer > .container-xl {
+    width: calc(100% - 40px) !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 0;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-brand,
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-subscribe-col {
+    grid-column: 1 / -1;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand-mark.home-brand-mark {
+    flex-basis: 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand-mark.home-brand-mark img {
+    width: 40px !important;
+    height: 38px !important;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand-name { font-size: 23px; }
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-brand .brand-tag { font-size: 8px; }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom-right {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  body:is(.legacy-public-page, .account-page) .site-footer .footer-bottom-right .footer-note {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 420px) {
+  body:is(.legacy-public-page, .account-page) .site-header .brand { gap: 6px; }
+  body:is(.legacy-public-page, .account-page) .site-header .brand-name { font-size: 21px; }
+  body:is(.legacy-public-page, .account-page) .site-header .brand-tag { font-size: 7px; }
+  body:is(.legacy-public-page, .account-page) #siteMenu .offcanvas-actions { grid-template-columns: 1fr; }
+  body:is(.legacy-public-page, .account-page) .site-footer > .container-xl { width: calc(100% - 28px) !important; }
+}

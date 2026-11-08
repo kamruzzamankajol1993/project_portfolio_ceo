@@ -7,10 +7,11 @@
   @if($siteSetting->publicUrl('favicon'))<link rel="icon" href="{{ $siteSetting->publicUrl('favicon') }}">@endif
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="{{ asset('public/admin/css/admin.css') }}" rel="stylesheet">
+  <link href="{{ asset('public/website/assets/css/montserrat-global.css') }}?v={{ filemtime(public_path('website/assets/css/montserrat-global.css')) }}" rel="stylesheet">
 </head>
 <body class="auth-body">
   <main class="auth-layout">

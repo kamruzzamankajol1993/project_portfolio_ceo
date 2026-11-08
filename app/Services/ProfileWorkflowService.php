@@ -35,6 +35,7 @@ class ProfileWorkflowService
         'public_contact_email', 'public_phone', 'personal_website', 'short_bio', 'about',
         'profile_quote', 'early_life', 'career_entrepreneurship', 'education_summary',
         'awards_publications_recognition', 'show_public_email', 'show_public_phone', 'show_date_of_birth',
+        'career_timeline', 'affiliations', 'education_items', 'achievement_items', 'media_items',
     ];
 
     private const COMPANY_FIELDS = [
@@ -43,7 +44,8 @@ class ProfileWorkflowService
         'short_description', 'overview', 'history_background', 'mission', 'vision', 'parent_company',
         'show_public_email', 'show_public_phone', 'accuracy_cta_enabled', 'accuracy_cta_title',
         'accuracy_cta_description', 'accuracy_cta_button_label', 'accuracy_cta_button_url',
-        'accuracy_cta_secondary_label', 'accuracy_cta_secondary_url',
+        'accuracy_cta_secondary_label', 'accuracy_cta_secondary_url', 'values_culture',
+        'highlights', 'leadership_items', 'service_items', 'milestone_items', 'media_items',
     ];
 
     public function saveCustomerProfile(
@@ -269,6 +271,22 @@ class ProfileWorkflowService
         $fields = $profileType === Profile::TYPE_PERSONAL ? self::PERSONAL_FIELDS : self::COMPANY_FIELDS;
         $attributes = Arr::only($data, $fields);
 
+        // Admin forms submit an explicit marker for each repeatable group. This
+        // lets an administrator remove every row and intentionally clear the
+        // corresponding JSON field, while leaving unrelated legacy data intact.
+        $structuredArrayFields = $profileType === Profile::TYPE_PERSONAL
+            ? ['career_timeline', 'affiliations', 'education_items', 'achievement_items', 'media_items']
+            : ['highlights', 'leadership_items', 'service_items', 'milestone_items', 'media_items'];
+
+        foreach ($structuredArrayFields as $fieldName) {
+            if ($request->has($fieldName . '_submitted')) {
+                $attributes[$fieldName] = collect($data[$fieldName] ?? [])
+                    ->filter(fn ($item) => is_array($item) && collect($item)->contains(fn ($value) => filled($value)))
+                    ->values()
+                    ->all();
+            }
+        }
+
         foreach (['show_public_email', 'show_public_phone', 'show_date_of_birth', 'accuracy_cta_enabled'] as $booleanField) {
             if (in_array($booleanField, $fields, true)) {
                 $attributes[$booleanField] = (bool) ($data[$booleanField] ?? false);
@@ -323,6 +341,166 @@ class ProfileWorkflowService
         }
 
         $version->sections()->delete();
+
+        // Admin-side profile editing keeps its existing form unchanged. If an
+        // admin saves a version without these customer-editor fields, rebuild
+        // the review mirrors from the already stored JSON detail columns.
+        $editorialData = $data;
+        $storedDetails = $profileType === Profile::TYPE_PERSONAL
+            ? PersonalProfileDetail::query()->where('profile_version_id', $version->id)->first()
+            : CompanyProfileDetail::query()->where('profile_version_id', $version->id)->first();
+        $editorialFieldNames = $profileType === Profile::TYPE_PERSONAL
+            ? ['career_timeline', 'affiliations', 'education_items', 'achievement_items', 'media_items']
+            : ['highlights', 'leadership_items', 'service_items', 'milestone_items', 'media_items', 'values_culture', 'accuracy_cta_enabled', 'accuracy_cta_title', 'accuracy_cta_description', 'accuracy_cta_button_label', 'accuracy_cta_button_url'];
+        foreach ($editorialFieldNames as $fieldName) {
+            if (!array_key_exists($fieldName, $editorialData)) {
+                $editorialData[$fieldName] = $storedDetails?->{$fieldName} ?? [];
+            }
+        }
+
+        // Mirror the structured editor fields into the existing section/item
+        // structure as a read-only editorial-review representation. This keeps
+        // the admin review screen unchanged while making every submitted field
+        // visible to the reviewer through its existing section renderer.
+        $editorialGroups = $profileType === Profile::TYPE_PERSONAL ? [
+            [
+                'key' => '_editor_career_timeline', 'title' => 'Career timeline', 'layout' => 'timeline',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => $item['year'] ?? null,
+                    'description' => trim(implode("\n", array_filter([
+                        $item['organization'] ?? null,
+                        $item['location'] ?? null,
+                        $item['description'] ?? null,
+                    ]))),
+                ], $editorialData['career_timeline'] ?? []),
+            ],
+            [
+                'key' => '_editor_companies', 'title' => 'Companies & affiliations', 'layout' => 'list',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['company'] ?? null,
+                    'subtitle' => trim(implode(' · ', array_filter([$item['position'] ?? null, $item['period'] ?? null]))),
+                    'description' => $item['description'] ?? null,
+                    'url' => $item['company_url'] ?? null,
+                ], $editorialData['affiliations'] ?? []),
+            ],
+            [
+                'key' => '_editor_education', 'title' => 'Education & qualifications', 'layout' => 'list',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['institution'] ?? null,
+                    'subtitle' => trim(implode(' · ', array_filter([$item['degree'] ?? null, $item['field'] ?? null, $item['year'] ?? null]))),
+                    'description' => $item['details'] ?? null,
+                ], $editorialData['education_items'] ?? []),
+            ],
+            [
+                'key' => '_editor_achievements', 'title' => 'Awards, publications & recognition', 'layout' => 'list',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => trim(implode(' · ', array_filter([$item['issuer'] ?? null, $item['year'] ?? null]))),
+                    'description' => $item['description'] ?? null,
+                    'url' => $item['url'] ?? null,
+                ], $editorialData['achievement_items'] ?? []),
+            ],
+            [
+                'key' => '_editor_media', 'title' => 'Media, interviews & gallery', 'layout' => 'grid',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => trim(implode(' · ', array_filter([$item['publisher'] ?? null, $item['date'] ?? null]))),
+                    'url' => $item['url'] ?? null,
+                ], $editorialData['media_items'] ?? []),
+            ],
+        ] : [
+            [
+                'key' => '_editor_overview_highlights', 'title' => 'Company highlights', 'layout' => 'grid',
+                'items' => array_merge(
+                    array_map(fn ($item) => [
+                        'title' => $item['title'] ?? null,
+                        'description' => $item['description'] ?? null,
+                        'icon' => $item['icon'] ?? null,
+                    ], $editorialData['highlights'] ?? []),
+                    filled($editorialData['values_culture'] ?? null) ? [[
+                        'title' => 'Values & culture',
+                        'description' => $editorialData['values_culture'],
+                    ]] : [],
+                    !empty($editorialData['accuracy_cta_enabled']) && filled($editorialData['accuracy_cta_title'] ?? null) ? [[
+                        'title' => $editorialData['accuracy_cta_title'],
+                        'subtitle' => $editorialData['accuracy_cta_button_label'] ?? null,
+                        'description' => $editorialData['accuracy_cta_description'] ?? null,
+                        'url' => $editorialData['accuracy_cta_button_url'] ?? null,
+                    ]] : []
+                ),
+            ],
+            [
+                'key' => '_editor_leadership', 'title' => 'Leadership team', 'layout' => 'grid',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['name'] ?? null,
+                    'subtitle' => $item['position'] ?? null,
+                    'description' => $item['bio'] ?? null,
+                    'url' => $item['profile_url'] ?? null,
+                ], $editorialData['leadership_items'] ?? []),
+            ],
+            [
+                'key' => '_editor_services', 'title' => 'Products & services', 'layout' => 'grid',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => $item['icon'] ?? null,
+                    'description' => $item['description'] ?? null,
+                    'icon' => $item['icon'] ?? null,
+                ], $editorialData['service_items'] ?? []),
+            ],
+            [
+                'key' => '_editor_achievements', 'title' => 'Achievements & milestones', 'layout' => 'timeline',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => $item['year'] ?? null,
+                    'description' => $item['description'] ?? null,
+                ], $editorialData['milestone_items'] ?? []),
+            ],
+            [
+                'key' => '_editor_media', 'title' => 'Media & news', 'layout' => 'grid',
+                'items' => array_map(fn ($item) => [
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => trim(implode(' · ', array_filter([$item['publisher'] ?? null, $item['date'] ?? null]))),
+                    'url' => $item['url'] ?? null,
+                ], $editorialData['media_items'] ?? []),
+            ],
+        ];
+
+        foreach ($editorialGroups as $group) {
+            $editorialItems = collect($group['items'] ?? [])
+                ->filter(fn ($item) => collect($item)->contains(fn ($value) => filled($value)))
+                ->values();
+
+            if ($editorialItems->isEmpty()) {
+                continue;
+            }
+
+            $editorialSection = $version->sections()->create([
+                'section_key' => $group['key'],
+                'title' => $group['title'],
+                'intro' => null,
+                'section_type' => 'content',
+                'layout' => $group['layout'] ?? 'default',
+                'settings' => [],
+                'is_visible' => true,
+                'sort_order' => $version->sections()->count(),
+            ]);
+
+            foreach ($editorialItems as $itemIndex => $item) {
+                $editorialSection->items()->create([
+                    'title' => $item['title'] ?? null,
+                    'subtitle' => $item['subtitle'] ?? null,
+                    'description' => $item['description'] ?? null,
+                    'icon' => $item['icon'] ?? null,
+                    'image_path' => null,
+                    'url' => $item['url'] ?? null,
+                    'metadata' => [],
+                    'is_visible' => true,
+                    'sort_order' => $itemIndex,
+                ]);
+            }
+        }
+
         foreach (($data['sections'] ?? []) as $sectionIndex => $sectionData) {
             if (blank($sectionData['title'] ?? null)) {
                 continue;

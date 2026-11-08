@@ -1,41 +1,50 @@
 @extends('website.master.master')
 
-@section('title')
-   Sign In - {{ $siteSetting->site_name }}
-@endsection
-
-@section('css')
-<link href="{{ asset('/') }}public/website/account-pages.css" rel="stylesheet">
-@endsection
+@section('title', 'Sign in | ' . $siteSetting->site_name)
 
 @section('body')
-<main class="auth-stage">
-    <div class="auth-card auth-card-login">
-      <aside class="auth-aside">
-        <span class="auth-aside-kicker"><i class="bi bi-book-half"></i> ENTREPRENEURWIKI</span>
-        <div class="auth-illustration" aria-hidden="true"><div class="illustration-orbit orbit-one"></div><div class="illustration-orbit orbit-two"></div><div class="illustration-book"><i class="bi bi-journal-richtext"></i></div><span class="orbit-dot dot-one"></span><span class="orbit-dot dot-two"></span><span class="orbit-dot dot-three"></span></div>
-        <h1>Welcome back.</h1>
-        <p>Sign in to manage your information, update your profile and keep your {{ $siteSetting->site_name }} presence accurate.</p>
-        <div class="auth-benefit"><i class="bi bi-shield-check"></i><span><strong>Your profile, your control</strong><small>Review and update your submitted information.</small></span></div>
-        <div class="auth-benefit"><i class="bi bi-patch-check"></i><span><strong>Editorial review</strong><small>Submit updates for verification before publishing.</small></span></div>
-      </aside>
-      <section class="auth-panel">
-        <div class="auth-heading"><span class="auth-eyebrow">MEMBER ACCESS</span><h2>Sign in to your account</h2><p>Enter your account details to continue.</p></div>
-        @if(session('status'))<p class="form-feedback" role="status">{{ session('status') }}</p>@endif
-        <form class="account-form" id="loginForm" action="{{ route('customer.login.submit') }}" method="post" data-server-form>
-          @csrf
-          <div class="form-field"><label for="loginEmail">Email address</label><div class="input-with-icon"><i class="bi bi-envelope"></i><input id="loginEmail" name="email" type="email" value="{{ old('email') }}" placeholder="you@example.com" autocomplete="email" required></div>@error('email')<small class="field-hint text-danger">{{ $message }}</small>@enderror</div>
-          <div class="form-field"><div class="field-label-row"><label for="loginPassword">Password</label><a href="{{ route('customer.forgot-password') }}">Forgot password?</a></div><div class="password-input"><i class="bi bi-lock"></i><input id="loginPassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button type="button" class="password-toggle" data-toggle-password="loginPassword" aria-label="Show password" aria-pressed="false"><i class="bi bi-eye"></i></button></div></div>
-          <div class="form-options"><label class="check-label"><input type="checkbox" name="remember" value="1"><span>Remember me</span></label><span class="secure-note"><i class="bi bi-shield-lock"></i> Secure sign in</span></div>
-          <button class="btn btn-primary auth-submit" type="submit">Sign In <i class="bi bi-arrow-right"></i></button>
-        </form>
-        <div class="auth-bottom">Don't have an account? <a href="{{ route('customer.register') }}">Create an account</a></div>
-        <div class="auth-trust"><i class="bi bi-info-circle"></i> Dashboard access is enabled after email verification and administrator approval.</div>
-      </section>
-    </div>
-  </main>
-@endsection
-
-@section('scripts')
-<script src="{{ asset('/') }}public/website/account-pages.js"></script>
+<main class="auth-shell">
+    <section class="auth-art-panel">
+        <div class="auth-art-content">
+            <span class="auth-eyebrow">YOUR {{ strtoupper($siteSetting->site_name) }} WORKSPACE</span>
+            <h1>Build your story.<br><em>Shape your legacy.</em></h1>
+            <p>Manage your professional profile, share company milestones and keep your public information accurate.</p>
+            <div class="auth-art-points">
+                <span><i class="bi bi-shield-check"></i> Verified profile workflow</span>
+                <span><i class="bi bi-globe2"></i> Global visibility</span>
+                <span><i class="bi bi-journal-richtext"></i> Your story, your control</span>
+            </div>
+        </div>
+        <div class="auth-art-orbit"><i class="bi bi-book-half"></i></div>
+    </section>
+    <section class="auth-form-panel">
+        <div class="auth-form-card">
+            <span class="auth-eyebrow">WELCOME BACK</span>
+            <h2>Sign in to your account</h2>
+            <p class="auth-subtitle">Access your dashboard and manage your profiles.</p>
+            @if(session('status'))<p class="form-feedback" role="status">{{ session('status') }}</p>@endif
+            @if($errors->any())<p class="form-feedback text-danger" role="alert">{{ $errors->first() }}</p>@endif
+            <form class="account-form" id="loginForm" action="{{ route('customer.login.submit') }}" method="post" data-server-form>
+                @csrf
+                <div class="form-field">
+                    <label for="loginEmail">Email address</label>
+                    <div class="input-with-icon"><i class="bi bi-envelope"></i><input id="loginEmail" name="email" type="email" value="{{ old('email') }}" placeholder="you@example.com" autocomplete="email" required></div>
+                    @error('email')<small class="field-hint text-danger">{{ $message }}</small>@enderror
+                </div>
+                <div class="form-field">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-input"><i class="bi bi-lock"></i><input id="loginPassword" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="password-toggle" type="button" data-toggle-password="loginPassword" aria-label="Show password"><i class="bi bi-eye"></i></button></div>
+                    @error('password')<small class="field-hint text-danger">{{ $message }}</small>@enderror
+                </div>
+                <div class="auth-form-options">
+                    <label class="check-label"><input type="checkbox" name="remember" value="1" @checked(old('remember'))><span>Remember me</span></label>
+                    <a class="text-link" href="{{ route('customer.forgot-password') }}">Forgot password?</a>
+                </div>
+                <button class="btn btn-primary auth-submit" type="submit">Sign In <i class="bi bi-arrow-right"></i></button>
+            </form>
+            <div class="auth-bottom">Don't have an account? <a href="{{ route('customer.register') }}">Create an account</a></div>
+            <div class="auth-trust"><i class="bi bi-shield-lock"></i> Your account information stays private and secure.</div>
+        </div>
+    </section>
+</main>
 @endsection

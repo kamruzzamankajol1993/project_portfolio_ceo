@@ -1,0 +1,43 @@
+/* Small implementation layer for Laravel-backed account forms; reference layout remains the source. */
+.account-page .profile-editor-fieldset{display:grid;gap:17px;min-width:0;margin:0;padding:0;border:0}
+.account-page .profile-editor-fieldset:disabled{opacity:.78}
+.account-page .account-layout-with-aside{grid-template-columns:230px minmax(0,1fr) 220px;gap:18px}
+.account-page .account-layout-with-aside .account-aside{position:sticky;top:18px}
+.account-page .editor-main-column{min-width:0}
+.account-page .customer-review-lock{display:flex;align-items:flex-start;gap:10px;margin:0 0 16px;padding:12px 14px;border:1px solid #f2dfb9;border-radius:9px;background:#fff8e9;color:#8b6119;font-size:11px;line-height:1.55}
+.account-page .customer-review-lock i{font-size:17px;flex:none}
+.account-page .visibility-options{display:flex;gap:16px;flex-wrap:wrap;border-top:1px solid #edf1f7;padding-top:13px;margin-top:15px}
+.account-page .action-buttons{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.account-page .repeat-list{display:grid;gap:9px}
+.account-page .repeat-row{margin-top:0}
+.account-page .repeat-row-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}
+.account-page .repeat-row-heading strong{font-size:11px;color:#28436f}
+.account-page .repeat-remove{border:0;background:transparent;color:#bd5656;font-size:10px}
+.account-page .nested-repeat-list{padding-left:12px;border-left:2px solid #e8eff8}
+.account-page .editor-subheading{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:#183666;margin:18px 0 10px}
+.account-page .customer-access-list{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#7587a2;font-size:10px}
+.account-page .customer-access-tag{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:5px 9px;background:#eaf8ef;color:#23834b;font-size:9px;font-weight:700}
+.account-page .customer-side-link{display:inline-flex;align-items:center;gap:6px;color:#0868f7;font-size:10px;font-weight:700;text-decoration:none}
+.account-page .review-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:#6d82a4;font-size:9px}
+.account-page .review-flow b{padding:5px 7px;border-radius:5px;background:#fff;color:#2b4776}
+.account-page .account-user-card .profile-list-icon{width:42px;height:42px;border-radius:50%;flex:none}
+.account-page .profile-list-row{min-width:0}
+.account-page .profile-list-actions{justify-content:flex-end}
+.account-page .editor-form-actions{flex-wrap:wrap}
+.account-page .sticky-form-actions{position:sticky;bottom:12px;z-index:10;box-shadow:0 6px 22px rgba(10,32,67,.10)}
+.account-page .form-feedback{padding:10px 12px;border-radius:7px;background:#f0f6ff;color:#365782;font-size:11px;margin:12px 0}
+.account-page .form-feedback.text-danger{background:#fff0f0;color:#b43e3e}
+@media(max-width:1199.98px){
+  .account-page .account-layout-with-aside{grid-template-columns:210px minmax(0,1fr) 200px;gap:14px}
+}
+@media(max-width:991.98px){
+  .account-page .account-layout-with-aside{grid-template-columns:220px minmax(0,1fr)}
+  .account-page .account-layout-with-aside .account-aside{position:static;grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:767.98px){
+  .account-page .account-layout-with-aside{grid-template-columns:1fr}
+  .account-page .account-layout-with-aside .account-aside{grid-column:auto;grid-template-columns:1fr}
+  .account-page .editor-form-actions{align-items:flex-start}
+  .account-page .action-buttons{width:100%;justify-content:flex-start}
+  .account-page .sticky-form-actions{position:static}
+}

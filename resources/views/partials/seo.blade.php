@@ -21,10 +21,12 @@
 
     $contentTitle = $contentRecord?->meta_title ?: $contentRecord?->title;
     $routeTitle = request()->routeIs('blog.index') ? 'Blog | ' . $seo->site_name : null;
-    $title = $page?->title
-        ?: ($contentTitle
-            ?: ($profileSeo?->meta_title
-                ?: ($routeTitle ?: ($viewTitle ?: ($seo->seo_title ?: $seo->site_name)))));
+    $title = request()->routeIs('site.home')
+        ? "CEOWiki — Discover the World's Business Leaders"
+        : ($page?->title
+            ?: ($contentTitle
+                ?: ($profileSeo?->meta_title
+                    ?: ($routeTitle ?: ($viewTitle ?: ($seo->seo_title ?: $seo->site_name))))));
 
     $routeDescription = request()->routeIs('blog.index')
         ? 'Articles, practical guides and stories for entrepreneurs and growing businesses.'

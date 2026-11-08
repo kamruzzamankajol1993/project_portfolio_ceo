@@ -1,40 +1,51 @@
-<footer class="site-footer page-shell container-fluid">
-  <div class="footer-brand">
-    <a class="brand-lockup" href="{{ $siteSetting->site_url ?: route('site.home') }}">
-      <span class="brand-mark">@if($siteSetting->publicUrl('logo'))<img src="{{ $siteSetting->publicUrl('logo') }}" alt="{{ $siteSetting->site_name }}" width="28" height="28" style="max-width:100%;max-height:100%;object-fit:contain">@else<i class="bi bi-book-half"></i>@endif</span>
-      <span><strong>{{ $siteSetting->site_name }}</strong><small>{{ $siteSetting->tagline ?: 'The Encyclopedia of Entrepreneurs' }}</small></span>
-    </a>
-    <p class="footer-brand-copy">Explore the people, companies and ideas shaping the world of business.</p>
-    <div class="social-links">
-      @if($siteSetting->facebook_url)<a href="{{ $siteSetting->facebook_url }}" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>@endif
-      @if($siteSetting->linkedin_url)<a href="{{ $siteSetting->linkedin_url }}" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>@endif
-      @if($siteSetting->youtube_url)<a href="{{ $siteSetting->youtube_url }}" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="bi bi-youtube"></i></a>@endif
-      @if($siteSetting->instagram_url)<a href="{{ $siteSetting->instagram_url }}" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>@endif
+@php
+    $brandName = trim((string) ($siteSetting->site_name ?: 'CEOWiki'));
+    $brandPrefix = \Illuminate\Support\Str::startsWith(strtolower($brandName), 'ceo') ? 'CEO' : null;
+    $brandSuffix = $brandPrefix ? trim(substr($brandName, 3)) : null;
+@endphp
+<footer class="site-footer {{ request()->routeIs('customer.*') ? 'account-footer' : '' }}" id="about">
+    <div class="container-xl">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a class="brand" href="{{ route('site.home') }}">
+                    <span class="brand-mark home-brand-mark">
+                        @if($siteSetting->publicUrl('logo'))<img src="{{ $siteSetting->publicUrl('logo') }}" alt="{{ $siteSetting->site_name }}">@else<img src="{{ asset('public/website/assets/images/brand-mark-reference.png') }}" alt="">@endif
+                    </span>
+                    <span class="brand-copy"><span class="brand-name">@if($brandPrefix)CEO<span>{{ $brandSuffix ?: 'Wiki' }}</span>@else{{ $brandName }}@endif</span><span class="brand-tag">{{ $siteSetting->tagline ?: 'The Encyclopedia of CEOs and Companies' }}</span></span>
+                </a>
+                @if($siteSetting->footer_text)<p class="footer-note">{{ $siteSetting->footer_text }}</p>@endif
+            </div>
+            <div class="footer-col"><h6>Explore</h6><a href="{{ route('site.entrepreneurs.index') }}">CEOs</a><a href="{{ route('site.companies.index') }}">Companies</a><a href="{{ route('site.profiles.index') }}">All Profiles</a></div>
+            <div class="footer-col"><h6>About</h6><a href="{{ route('site.about-us') }}">About {{ $siteSetting->site_name }}</a><a href="{{ route('site.privacy') }}">Privacy Policy</a><a href="{{ route('site.terms') }}">Terms &amp; Conditions</a></div>
+            <div class="footer-col"><h6>Support</h6><a href="{{ route('site.contact-us') }}">Contact</a><a href="{{ route('customer.register') }}">Request a Profile</a><a href="{{ route('site.contact-us') }}">Suggest an Edit</a></div>
+            <div class="footer-col footer-subscribe-col">
+                    <h6>{{ $newsletterSettings['newsletter_label'] ?? 'Stay Updated' }}</h6>
+                    <p>{{ $newsletterSettings['newsletter_description'] ?? 'Get the latest profiles and updates.' }}</p>
+                    @if($newsletterSettings['newsletter_enabled'] ?? true)
+                        @if(session('newsletter_success'))<p class="small text-success" role="status">{{ session('newsletter_success') }}</p>@endif
+                        <form class="footer-subscribe" data-server-form method="post" action="{{ route('newsletter.subscribe') }}">
+                            @csrf
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="{{ $newsletterSettings['newsletter_placeholder'] ?? 'Your email address' }}" aria-label="Your email address" required>
+                            <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px">
+                            <button class="btn btn-blue" type="submit">{{ $newsletterSettings['newsletter_button_text'] ?? 'Subscribe' }}</button>
+                        </form>
+                        @error('email')<small class="text-danger">{{ $message }}</small>@enderror
+                    @else
+                        <span class="footer-note">Newsletter subscriptions are currently paused.</span>
+                    @endif
+                </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© {{ date('Y') }} {{ $siteSetting->site_name }}. All rights reserved.</span>
+            <div class="footer-bottom-right">
+                <span class="footer-note">{{ $siteSetting->footer_text ?: 'An independent encyclopedia of CEOs and companies.' }}</span>
+                <span class="social-links">
+                    @if($siteSetting->facebook_url)<a href="{{ $siteSetting->facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>@endif
+                    @if($siteSetting->instagram_url)<a href="{{ $siteSetting->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>@endif
+                    @if($siteSetting->linkedin_url)<a href="{{ $siteSetting->linkedin_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>@endif
+                    @if($siteSetting->youtube_url)<a href="{{ $siteSetting->youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>@endif
+                </span>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="footer-column"><h3>Explore</h3><a href="{{ route('site.profiles.index') }}">All Profiles</a><a href="{{ route('site.entrepreneurs.index') }}">Entrepreneurs</a><a href="{{ route('site.companies.index') }}">Companies</a><a href="{{ route('blog.index') }}">Blog &amp; insights</a></div>
-  <div class="footer-column"><h3>Company</h3><a href="{{ route('site.about-us') }}">About Us</a><a href="{{ route('site.contact-us') }}">Contact Us</a><a href="{{ route('site.contact-us') }}">Corrections</a></div>
-  <div class="footer-column"><h3>Information</h3><a href="{{ route('site.privacy') }}">Privacy Policy</a><a href="{{ route('site.terms') }}">Terms &amp; Conditions</a><a href="{{ route('blog.index') }}">Latest articles</a></div>
-  @if($newsletterSettings['newsletter_enabled'] ?? true)
-    <div class="footer-newsletter">
-      <span class="footer-newsletter-label">{{ $newsletterSettings['newsletter_label'] ?? 'STAY IN THE LOOP' }}</span>
-      <h3>{{ $newsletterSettings['newsletter_title'] ?? 'Ideas worth exploring.' }}</h3>
-      <p>{{ $newsletterSettings['newsletter_description'] ?? ('Get the latest stories and updates from '.$siteSetting->site_name.'.') }}</p>
-
-      @if(session('newsletter_success'))
-        <p class="newsletter-feedback newsletter-success" role="status">{{ session('newsletter_success') }}</p>
-      @endif
-      <form method="post" action="{{ route('newsletter.subscribe') }}">
-        @csrf
-        <label class="visually-hidden" for="footer-newsletter-email">Email address</label>
-        <input id="footer-newsletter-email" type="email" name="email" value="{{ old('email') }}" placeholder="{{ $newsletterSettings['newsletter_placeholder'] ?? 'Your email address' }}" aria-label="{{ $newsletterSettings['newsletter_placeholder'] ?? 'Your email address' }}" autocomplete="email" required>
-        <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px">
-        <button type="submit" class="btn btn-primary">{{ $newsletterSettings['newsletter_button_text'] ?? 'Subscribe' }}</button>
-      </form>
-      @error('email')
-        <p class="newsletter-feedback newsletter-error" role="alert">{{ $message }}</p>
-      @enderror
-    </div>
-  @endif
-  <div class="footer-bottom"><span>© {{ date('Y') }} {{ $siteSetting->site_name }}. All rights reserved.</span><span>{{ $siteSetting->footer_text ?: 'An independent encyclopedia of entrepreneurs.' }}</span></div>
 </footer>
