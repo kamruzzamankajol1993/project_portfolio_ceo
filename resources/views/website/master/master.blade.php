@@ -50,6 +50,7 @@
         <link href="{{ asset('public/website/assets/css/legacy-shared-chrome.css') }}?v={{ filemtime(public_path('website/assets/css/legacy-shared-chrome.css')) }}" rel="stylesheet">
     @endif
     <link href="{{ asset('public/website/assets/css/montserrat-global.css') }}?v={{ filemtime(public_path('website/assets/css/montserrat-global.css')) }}" rel="stylesheet">
+    <link href="{{ asset('public/website/assets/css/typography-refresh.css') }}?v={{ filemtime(public_path('website/assets/css/typography-refresh.css')) }}" rel="stylesheet">
 </head>
 <body class="{{ $bodyClasses }}">
     {{-- The same Homepage header, mobile menu and footer are shared by all public pages. --}}

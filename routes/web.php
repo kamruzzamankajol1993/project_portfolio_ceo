@@ -34,6 +34,17 @@ use App\Http\Controllers\Admin\NotificationController as AdminNotificationContro
 use App\Http\Middleware\EnsureCustomerApproved;
 use App\Http\Middleware\RedirectIfCustomerAuthenticated;
 
+
+Route::get('/clear2', function() {
+
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:cache');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    return redirect()->back();
+});
+
 Route::get('/', [FrontController::class, 'index'])->name('site.home');
 Route::get('/profiles', [FrontController::class, 'allProfiles'])->name('site.profiles.index');
 Route::get('/companies', [FrontController::class, 'companyProfilesDirectory'])->name('site.companies.index');

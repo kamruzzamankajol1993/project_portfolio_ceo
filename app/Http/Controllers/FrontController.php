@@ -107,9 +107,9 @@ class FrontController extends Controller
                 ?: $homepageFeaturedEntrepreneurs->first();
         }
 
-        $homepageRecentProfiles = $sectionProfiles('recently_published_profiles')->take(6);
+        $homepageRecentProfiles = $sectionProfiles('recently_published_profiles')->take(4);
         if ($showRecentProfiles && $homepageRecentProfiles->isEmpty() && !$section('recently_published_profiles')) {
-            $homepageRecentProfiles = (clone $publishedProfiles)->limit(6)->get();
+            $homepageRecentProfiles = (clone $publishedProfiles)->limit(4)->get();
         }
 
         // The new homepage uses a dedicated featured-company row. Keep it data-driven

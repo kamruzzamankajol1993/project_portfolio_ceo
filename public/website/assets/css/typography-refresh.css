@@ -1,0 +1,1362 @@
+/*
+ * Public-site readability refresh
+ * Larger, calmer typography and four-up desktop card layouts.
+ * Loaded after page styles so the improvements stay consistent site-wide.
+ */
+
+body:not(.account-page) {
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+/* Consistent, comfortably readable paragraph text across every public page. */
+body p {
+  font-size: clamp(16px, 1.05vw, 18px) !important;
+  font-weight: 500 !important;
+  line-height: 1.7;
+}
+
+body:not(.account-page) .site-header .desktop-nav-links .nav-link {
+  font-size: clamp(13px, .82vw, 15px);
+}
+
+body:not(.account-page) .site-header .brand-lockup small {
+  font-size: clamp(9px, .62vw, 11px);
+}
+
+body:not(.account-page) .site-header .desktop-nav-actions .btn,
+body:not(.account-page) .site-header .header-search .form-control {
+  font-size: 14px;
+}
+
+body:not(.account-page) .btn {
+  font-size: 14px;
+}
+
+body:not(.account-page) input,
+body:not(.account-page) select,
+body:not(.account-page) textarea,
+body:not(.account-page) .form-control,
+body:not(.account-page) .form-select {
+  font-size: 15px;
+}
+
+/* Homepage */
+.home-page .home-hero .eyebrow {
+  font-size: clamp(11px, .78vw, 13px);
+  line-height: 1.45;
+}
+
+.home-page .hero-lede {
+  font-size: clamp(16px, 1.08vw, 19px);
+  line-height: 1.55;
+}
+
+.home-page .section-block {
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+.home-page .section-heading h2,
+.home-page .home-lower .section-heading h2 {
+  font-size: clamp(23px, 1.55vw, 30px);
+  line-height: 1.2;
+}
+
+.home-page .section-heading p,
+.home-page .home-lower .section-heading p {
+  font-size: clamp(14px, .92vw, 16px);
+  line-height: 1.55;
+}
+
+.home-page .view-link {
+  font-size: clamp(13px, .8vw, 15px);
+}
+
+.home-page .stat-label {
+  font-size: clamp(13px, .82vw, 15px);
+}
+
+.home-page .stat-note {
+  font-size: clamp(12px, .74vw, 14px);
+  line-height: 1.4;
+}
+
+.home-page .stats-quote {
+  font-size: clamp(14px, .9vw, 16px);
+  line-height: 1.5;
+}
+
+.home-page #ceo-grid,
+.home-page #company-grid {
+  gap: 12px;
+}
+
+/* Exactly four featured cards visible on wide screens. */
+.home-page #featured-ceos #ceo-grid > .ceo-card,
+.home-page #company-grid > .company-tile {
+  flex: 0 0 calc((100% - 36px) / 4);
+}
+
+.home-page #featured-ceos .ceo-card img {
+  height: clamp(155px, 11vw, 185px);
+}
+
+.home-page .ceo-card-body {
+  padding: 12px 13px 13px;
+}
+
+.home-page .ceo-name {
+  font-size: clamp(14px, .9vw, 16px);
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.home-page .ceo-role {
+  font-size: clamp(12px, .76vw, 14px);
+  line-height: 1.45;
+  white-space: normal;
+}
+
+.home-page .ceo-tags span {
+  font-size: clamp(11px, .68vw, 12px);
+  padding: 4px 7px;
+}
+
+.home-page .company-tile {
+  min-height: 150px;
+  padding: 12px 10px;
+  border-radius: 10px;
+}
+
+.home-page .brand-logo {
+  height: 52px;
+}
+
+.home-page .company-tile strong {
+  font-size: clamp(14px, .9vw, 16px);
+  line-height: 1.35;
+}
+
+.home-page .company-tile small {
+  font-size: clamp(12px, .76vw, 14px);
+  line-height: 1.4;
+}
+
+.home-page .company-tile .ceo-tag {
+  font-size: clamp(11px, .68vw, 12px);
+  white-space: normal;
+}
+
+.home-page .update-title {
+  font-size: clamp(13px, .82vw, 15px);
+  line-height: 1.4;
+}
+
+.home-page .update-sub {
+  font-size: clamp(12px, .74vw, 14px);
+  line-height: 1.45;
+}
+
+.home-page .update-date {
+  font-size: 12px;
+}
+
+.home-page .update-list .pill {
+  font-size: 11px;
+}
+
+.home-page .country-map-stage,
+.home-page .update-list {
+  line-height: 1.55;
+}
+
+.home-page .footer-column h3,
+.home-page .footer-newsletter h3 {
+  font-size: 15px;
+}
+
+.home-page .footer-column a,
+.home-page .footer-newsletter p,
+.home-page .footer-newsletter input,
+.home-page .footer-newsletter button {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.home-page .footer-bottom {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 991.98px) {
+  .home-page #featured-ceos #ceo-grid > .ceo-card,
+  .home-page #company-grid > .company-tile {
+    flex-basis: calc((100% - 24px) / 3);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .home-page .section-block {
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .home-page .section-heading h2,
+  .home-page .home-lower .section-heading h2 {
+    font-size: 22px;
+  }
+
+  .home-page .section-heading p,
+  .home-page .home-lower .section-heading p {
+    font-size: 13px;
+  }
+
+  .home-page #featured-ceos #ceo-grid > .ceo-card,
+  .home-page #company-grid > .company-tile {
+    flex-basis: calc((100% - 9px) / 2);
+  }
+
+  .home-page .ceo-name,
+  .home-page .company-tile strong {
+    font-size: 14px;
+  }
+
+  .home-page .ceo-role,
+  .home-page .company-tile small {
+    font-size: 12px;
+  }
+}
+
+/* Legacy public pages and profile directory */
+.legacy-public-page {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.legacy-public-page .hero-description {
+  font-size: clamp(15px, .98vw, 17px);
+  line-height: 1.7;
+}
+
+.legacy-public-page .popular-searches,
+.legacy-public-page .popular-searches strong {
+  font-size: 13px;
+}
+
+.legacy-public-page .section-heading h2 {
+  font-size: clamp(24px, 1.55vw, 30px);
+  line-height: 1.2;
+}
+
+.legacy-public-page .section-heading p {
+  font-size: clamp(14px, .92vw, 16px);
+  line-height: 1.55;
+}
+
+.legacy-public-page .section-controls > a {
+  font-size: 13px;
+}
+
+.legacy-public-page .featured-grid,
+.legacy-public-page .recent-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.legacy-public-page .profile-card {
+  border-radius: 12px;
+}
+
+.legacy-public-page .profile-card > img {
+  height: clamp(165px, 13vw, 205px);
+}
+
+.legacy-public-page .profile-card-body {
+  padding: 14px 15px 16px;
+}
+
+.legacy-public-page .profile-card h3 {
+  font-size: clamp(15px, .98vw, 17px);
+  line-height: 1.4;
+  letter-spacing: -.02em;
+}
+
+.legacy-public-page .profile-card .role {
+  min-height: 0;
+  font-size: clamp(13px, .82vw, 15px);
+  line-height: 1.5;
+}
+
+.legacy-public-page .profile-card .bio {
+  min-height: 0;
+  font-size: clamp(13px, .82vw, 15px);
+  line-height: 1.6;
+}
+
+.legacy-public-page .profile-card a,
+.legacy-public-page .spotlight-copy a,
+.legacy-public-page .story-mini a {
+  font-size: 14px;
+}
+
+.legacy-public-page .recent-card h3 {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.legacy-public-page .recent-card p,
+.legacy-public-page .recent-card small {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.profile-directory .section-heading h1 {
+  font-size: clamp(28px, 2.1vw, 38px);
+  line-height: 1.15;
+}
+
+.profile-directory .section-heading p {
+  font-size: clamp(14px, .95vw, 16px);
+}
+
+.profile-directory .section-controls span,
+.profile-directory .directory-status {
+  font-size: 14px;
+}
+
+.profile-directory .directory-search {
+  max-width: 720px;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.profile-directory .directory-search input,
+.profile-directory .directory-search select {
+  min-height: 46px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 15px;
+}
+
+.profile-directory .directory-search button {
+  min-height: 46px;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.profile-directory .featured-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.profile-directory .profile-card > img {
+  height: clamp(175px, 13vw, 220px);
+}
+
+.profile-directory .profile-card-body {
+  padding: 15px 16px 17px;
+}
+
+.profile-directory .profile-card h3 {
+  font-size: clamp(16px, 1vw, 18px);
+}
+
+.profile-directory .profile-card .role,
+.profile-directory .profile-card .bio {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.profile-directory .profile-card a {
+  font-size: 14px;
+}
+
+@media (max-width: 1199.98px) {
+  .legacy-public-page .featured-grid,
+  .legacy-public-page .recent-grid,
+  .profile-directory .featured-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .legacy-public-page .featured-grid,
+  .legacy-public-page .recent-grid,
+  .profile-directory .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .profile-directory .directory-search {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .legacy-public-page .featured-grid,
+  .legacy-public-page .recent-grid,
+  .profile-directory .featured-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Company and individual profile detail pages */
+.profile-page {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.profile-page .profile-section-title,
+.profile-page .individual-main .profile-section-title {
+  font-size: clamp(21px, 1.45vw, 28px);
+  line-height: 1.25;
+}
+
+.profile-page .section-paragraph {
+  font-size: clamp(14px, .96vw, 16px);
+  line-height: 1.75;
+}
+
+.profile-page .company-tagline {
+  font-size: clamp(15px, 1.08vw, 19px);
+}
+
+.profile-page .company-summary {
+  font-size: clamp(14px, .88vw, 16px);
+  line-height: 1.65;
+}
+
+.profile-page .company-meta {
+  font-size: clamp(13px, .82vw, 15px);
+  line-height: 1.5;
+}
+
+.profile-page .service-pill strong {
+  font-size: clamp(13px, .84vw, 15px);
+}
+
+.profile-page .service-pill small {
+  font-size: clamp(12px, .76vw, 14px);
+}
+
+.profile-page .operation-card h3 {
+  font-size: clamp(15px, .96vw, 17px);
+}
+
+.profile-page .operation-card p,
+.profile-page .founder-copy p:not(.founder-role) {
+  font-size: clamp(14px, .9vw, 16px);
+  line-height: 1.65;
+}
+
+.profile-page .founder-role,
+.profile-page .inline-link {
+  font-size: 14px;
+}
+
+.profile-page .company-impact-card strong {
+  font-size: clamp(14px, .86vw, 16px);
+}
+
+.profile-page .company-impact-card span,
+.profile-page .reference-list li {
+  font-size: clamp(13px, .8vw, 15px);
+  line-height: 1.55;
+}
+
+.profile-page .sidebar-title {
+  font-size: clamp(17px, 1.08vw, 20px);
+}
+
+.profile-page .details-list dt,
+.profile-page .details-list dd,
+.profile-page .summary-list dt,
+.profile-page .summary-list dd {
+  font-size: clamp(13px, .82vw, 15px);
+  line-height: 1.55;
+}
+
+.profile-page .connect-list li > span,
+.profile-page .external-links-list li > span {
+  font-size: 13px;
+}
+
+.profile-page .connect-list li > a,
+.profile-page .external-links-list li > a {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.profile-page .sidebar-suggest-card p,
+.profile-page .sidebar-suggest-card .btn {
+  font-size: 14px;
+}
+
+.profile-page .individual-title {
+  font-size: clamp(15px, 1.12vw, 20px);
+}
+
+.profile-page .individual-roles,
+.profile-page .individual-meta {
+  font-size: clamp(13px, .82vw, 15px);
+}
+
+.profile-page .individual-bio,
+.profile-page .individual-company-copy p {
+  font-size: clamp(14px, .9vw, 16px);
+  line-height: 1.7;
+}
+
+.profile-page .quote-card p,
+.profile-page .visit-website-btn,
+.profile-page .individual-reference-list {
+  font-size: 13px;
+}
+
+.profile-page .individual-impact-card h3 {
+  font-size: 15px;
+}
+
+.profile-page .individual-impact-card p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.profile-page .source-note {
+  font-size: 12px;
+}
+
+.profile-page .profile-footer-links a,
+.profile-page .profile-footer-bottom {
+  font-size: 12px;
+}
+
+/* Blog, article, about, contact and legal pages */
+.site-content-wrap {
+  width: min(1320px, calc(100% - clamp(30px, 4vw, 72px)));
+  margin: 38px auto 60px;
+}
+
+.content-hero {
+  padding: clamp(28px, 3vw, 42px) clamp(28px, 3.2vw, 48px);
+  margin-bottom: 24px;
+}
+
+.content-kicker {
+  font-size: 12px;
+  padding: 6px 11px;
+}
+
+.content-hero h1 {
+  font-size: clamp(34px, 3.4vw, 48px);
+  line-height: 1.15;
+}
+
+.content-hero p {
+  font-size: clamp(15px, 1vw, 17px);
+  line-height: 1.65;
+}
+
+.blog-public-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.public-post-image {
+  height: clamp(170px, 13vw, 210px);
+}
+
+.public-post-copy {
+  padding: 17px 18px 19px;
+}
+
+.public-post-meta {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.public-post-copy h2 {
+  font-size: clamp(17px, 1.12vw, 20px);
+  line-height: 1.4;
+}
+
+.public-post-copy p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.read-post-link,
+.back-to-blog {
+  font-size: 14px;
+}
+
+.article-wrap {
+  max-width: 1020px;
+}
+
+.public-article {
+  padding: clamp(24px, 3vw, 38px);
+}
+
+.article-excerpt {
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.article-content,
+.legal-content {
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.article-content h2,
+.article-content h3,
+.legal-content h2,
+.legal-content h3 {
+  line-height: 1.3;
+}
+
+.legal-wrap {
+  max-width: 1080px;
+}
+
+.legal-hero p {
+  font-size: 14px;
+}
+
+.about-rich-content,
+.about-purpose-card p,
+.about-value-card p,
+.contact-intro-copy,
+.contact-note,
+.contact-response-note {
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.about-section-heading h2,
+.about-purpose-card h2,
+.contact-details-card h2,
+.contact-card-heading h2 {
+  font-size: clamp(19px, 1.35vw, 23px);
+}
+
+.about-values-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.about-value-card h3 {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.about-bottom-cta h2 {
+  font-size: 20px;
+}
+
+.about-bottom-cta p,
+.about-bottom-cta > div > span,
+.about-bottom-cta > a,
+.about-hero-meta span,
+.about-contact-link {
+  font-size: 13px;
+}
+
+.contact-page-grid {
+  gap: 22px;
+}
+
+.contact-card-heading p,
+.contact-intro-copy,
+.contact-details-intro,
+.contact-detail-row small,
+.contact-detail-row strong,
+.contact-details-empty,
+.contact-aside-bottom strong,
+.contact-aside-bottom span,
+.contact-aside-bottom a,
+.contact-submit-row > small,
+.contact-submit-btn {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.contact-form-grid input,
+.contact-form-grid select,
+.contact-form-grid textarea {
+  font-size: 15px;
+}
+
+@media (max-width: 1100px) {
+  .blog-public-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .about-values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .blog-public-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .site-content-wrap {
+    width: calc(100% - 24px);
+    margin: 22px auto 42px;
+  }
+
+  .blog-public-grid,
+  .about-values-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .content-hero {
+    padding: 25px 22px;
+  }
+
+  .content-hero h1 {
+    font-size: 32px;
+  }
+
+  .content-hero p {
+    font-size: 15px;
+  }
+}
+
+/* Shared public header/footer: keep small utility copy readable as well. */
+body.legacy-public-page .site-header .brand-tag {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+body.legacy-public-page .site-header .desktop-nav a {
+  font-size: 14px;
+}
+
+body.legacy-public-page .site-header .header-actions .btn {
+  font-size: 13px;
+}
+
+body.legacy-public-page #siteMenu .brand-tag {
+  font-size: 10px;
+}
+
+body.legacy-public-page #siteMenu .mobile-nav-link {
+  font-size: 15px;
+}
+
+body.legacy-public-page #siteMenu .offcanvas-actions .btn {
+  font-size: 14px;
+}
+
+body.legacy-public-page .site-footer .footer-brand .brand-tag,
+body.legacy-public-page .site-footer .footer-note {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+body.legacy-public-page .site-footer .footer-col h6,
+body.legacy-public-page .site-footer .footer-subscribe-col h6 {
+  font-size: 15px;
+}
+
+body.legacy-public-page .site-footer .footer-col a,
+body.legacy-public-page .site-footer .footer-col p,
+body.legacy-public-page .site-footer .footer-subscribe-col p,
+body.legacy-public-page .site-footer .footer-subscribe input[type="email"],
+body.legacy-public-page .site-footer .footer-subscribe .btn,
+body.legacy-public-page .site-footer .footer-subscribe button {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+body.legacy-public-page .site-footer .footer-bottom,
+body.legacy-public-page .site-footer .footer-bottom > span,
+body.legacy-public-page .site-footer .footer-bottom-right .footer-note {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+body.home-page .site-header .brand-tag {
+  font-size: 10px;
+}
+
+body.home-page .site-header .desktop-nav a {
+  font-size: 14px;
+}
+
+body.home-page .site-header .header-search .form-control {
+  font-size: 14px;
+}
+
+.home-page .footer-col h6,
+.home-page .footer-subscribe-col h6 {
+  font-size: 15px;
+}
+
+.home-page .footer-col a,
+.home-page .footer-col p,
+.home-page .footer-subscribe-col p,
+.home-page .footer-subscribe input,
+.home-page .footer-subscribe button {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+body:not(.account-page) .search-results-heading {
+  font-size: 12px;
+}
+
+body:not(.account-page) .search-result-type {
+  font-size: 11px;
+}
+
+body:not(.account-page) .search-result-title {
+  font-size: 14px;
+}
+
+body:not(.account-page) .search-result-subtitle,
+body:not(.account-page) .search-result-description,
+body:not(.account-page) .search-result-message {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Mobile layout refinement: keep two cards visible side by side on every phone size. */
+@media (max-width: 767.98px) {
+  .home-page #ceo-grid,
+  .home-page #company-grid {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    gap: 9px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-page #ceo-grid > .ceo-card,
+  .home-page #company-grid > .company-tile {
+    box-sizing: border-box;
+    flex: 0 0 calc((100% - 9px) / 2) !important;
+    width: calc((100% - 9px) / 2) !important;
+    min-width: 0;
+    max-width: none;
+    scroll-snap-align: start;
+  }
+
+  /* Show the four latest updates as a compact two-column card grid. */
+  .home-page .update-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-left: 0;
+  }
+
+  .home-page .update-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto;
+    align-items: start;
+    gap: 6px;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px;
+    border: 1px solid #e5edf6;
+    border-radius: 9px;
+    background: #fff;
+  }
+
+  .home-page .update-list li > .update-thumb {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 40px;
+    height: 40px;
+  }
+
+  .home-page .update-list li > div {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+  }
+
+  .home-page .update-list .update-title,
+  .home-page .update-list .update-sub {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
+
+  .home-page .update-list .update-title {
+    -webkit-line-clamp: 2;
+  }
+
+  .home-page .update-list .update-sub {
+    -webkit-line-clamp: 2;
+  }
+
+  .home-page .update-list .pill {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: start;
+  }
+
+  .home-page .update-list li > a {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: center;
+  }
+
+  .home-page .update-list .update-date {
+    display: none;
+  }
+
+  /* Directory and legacy listing cards also remain two-up on narrow phones. */
+  .legacy-public-page .featured-grid,
+  .legacy-public-page .recent-grid,
+  .profile-directory .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+  }
+}
+
+
+/* Homepage hero typography correction:
+   Keep the featured profile card compact; the global paragraph readability
+   rule above should not enlarge text inside this small overlay card. */
+.home-page .hero-feature-card h2 {
+  font-size: clamp(15px, .95vw, 17px) !important;
+  line-height: 1.12 !important;
+}
+.home-page .hero-feature-card .hero-feature-role {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+}
+.home-page .hero-feature-card .hero-feature-description {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  font-weight: 400 !important;
+}
+.home-page .hero-feature-card .hero-feature-eyebrow {
+  font-size: 9px !important;
+  line-height: 1.05 !important;
+}
+.home-page .hero-feature-card .hero-feature-button {
+  font-size: 11px !important;
+}
+
+@media (max-width: 767.98px) {
+  .home-page .hero-feature-card h2 {
+    font-size: 12px !important;
+  }
+  .home-page .hero-feature-card .hero-feature-role {
+    font-size: 9.5px !important;
+    line-height: 1.2 !important;
+  }
+  .home-page .hero-feature-card .hero-feature-description {
+    font-size: 8.5px !important;
+    line-height: 1.2 !important;
+  }
+  .home-page .hero-feature-card .hero-feature-eyebrow {
+    font-size: 7.5px !important;
+  }
+  .home-page .hero-feature-card .hero-feature-button {
+    font-size: 8.5px !important;
+  }
+}
+
+
+/* ==========================================================
+   Balanced typography pass — profile details + customer area
+   Keep paragraph copy comfortably readable without oversized
+   body text, while bringing small navigation and utility text
+   up to a consistent, medium-weight scale.
+   ========================================================== */
+
+/* Site-wide paragraph size: reduce the previous oversized 16–18px rule. */
+body p {
+  font-size: clamp(14px, .9vw, 16px) !important;
+  font-weight: 500 !important;
+  line-height: 1.65 !important;
+}
+
+/* Keep compact hero overlays compact despite the global paragraph rule. */
+.company-page .company-profile-text p {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+}
+.home-page .hero-feature-card .hero-feature-description {
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+
+/* Company and personal profile detail navigation. */
+.company-page .company-tabs a,
+.person-page .person-tabs a {
+  font-size: clamp(12px, .78vw, 13px) !important;
+  font-weight: 600 !important;
+  line-height: 1.25;
+  padding: 9px 11px;
+}
+
+.company-page .page-nav h3,
+.person-page .page-nav h3 {
+  font-size: 15px !important;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.company-page .page-nav a,
+.person-page .page-nav a {
+  font-size: 12.5px !important;
+  font-weight: 500;
+  line-height: 1.35;
+  padding: 8px 7px;
+}
+
+.company-page .page-nav-toggle,
+.person-page .page-nav-toggle,
+.company-page .mobile-nav-link,
+.person-page .mobile-nav-link {
+  font-size: 13px !important;
+  font-weight: 600;
+}
+
+/* Profile detail sidebars and company/person facts tables. */
+.company-page .side-card-head h3,
+.person-page .side-card-head h3 {
+  font-size: 15.5px !important;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.company-page .facts-table td,
+.person-page .facts-table td {
+  font-size: 12px !important;
+  font-weight: 500;
+  line-height: 1.45;
+  padding: 7px 9px;
+}
+
+.company-page .facts-table td:first-child,
+.person-page .facts-table td:first-child {
+  font-weight: 700;
+}
+
+.company-page .mini-person strong,
+.company-page .mini-company strong,
+.person-page .mini-person strong,
+.person-page .mini-company strong {
+  font-size: 11px !important;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.company-page .mini-person small,
+.company-page .mini-company small,
+.person-page .mini-person small,
+.person-page .mini-company small {
+  font-size: 10px !important;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.company-page .connect-row,
+.person-page .connect-row,
+.company-page .profile-empty-state,
+.person-page .profile-empty-state {
+  font-size: 11px !important;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.company-page .connect-row a,
+.company-page .view-link,
+.person-page .connect-row a,
+.person-page .view-link {
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+/* Newer profile-detail template uses the same readable sidebar scale. */
+.profile-page .sidebar-title {
+  font-size: clamp(16px, 1vw, 18px) !important;
+  font-weight: 700;
+}
+.profile-page .details-list dt,
+.profile-page .details-list dd,
+.profile-page .summary-list dt,
+.profile-page .summary-list dd {
+  font-size: clamp(12px, .78vw, 14px) !important;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.profile-page .details-list dt,
+.profile-page .summary-list dt {
+  font-weight: 700;
+}
+.profile-page .connect-list li > span,
+.profile-page .external-links-list li > span,
+.profile-page .connect-list li > a,
+.profile-page .external-links-list li > a {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+
+/* Customer pages available after login: dashboard, history and profile editors. */
+.account-page {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.account-page p {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.6 !important;
+}
+
+.account-page .breadcrumb-line {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+
+.account-page .auth-eyebrow {
+  font-size: 11px !important;
+  font-weight: 700;
+}
+
+.account-page .account-heading p {
+  font-size: 13px !important;
+  font-weight: 500;
+}
+
+.account-page .profile-status {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+.account-page .account-user-card strong {
+  font-size: 13px !important;
+  font-weight: 700;
+}
+.account-page .account-user-card small {
+  font-size: 11px !important;
+  font-weight: 500;
+}
+
+.account-page .account-nav-label {
+  font-size: 10px !important;
+  font-weight: 700;
+}
+.account-page .account-nav a {
+  font-size: 12.5px !important;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.account-page .account-sidebar-note strong {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+.account-page .account-sidebar-note p {
+  font-size: 11.5px !important;
+  font-weight: 500;
+}
+.account-page .account-signout {
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+.account-page .customer-stat-card small {
+  font-size: 11.5px !important;
+  font-weight: 500;
+}
+.account-page .customer-stat-card span:not(.customer-stat-icon) {
+  font-size: 10.5px !important;
+  font-weight: 500;
+}
+
+.account-page .editor-card-heading h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+.account-page .editor-card-heading p {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+.account-page .section-step {
+  font-size: 10px !important;
+  font-weight: 700;
+}
+
+.account-page .profile-list-copy strong {
+  font-size: 13px !important;
+  font-weight: 700;
+}
+.account-page .profile-list-copy small,
+.account-page .profile-list-footer > small {
+  font-size: 11px !important;
+  font-weight: 500;
+}
+.account-page .customer-status {
+  font-size: 10px !important;
+  font-weight: 700;
+}
+.account-page .activity-list strong {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+.account-page .activity-list small {
+  font-size: 11px !important;
+  font-weight: 500;
+}
+.account-page .activity-time {
+  font-size: 10px !important;
+  font-weight: 500;
+}
+
+.account-page .review-info-banner strong {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+.account-page .review-info-banner p,
+.account-page .editor-info-card p {
+  font-size: 11.5px !important;
+  font-weight: 500;
+}
+.account-page .editor-info-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+}
+.account-page .editor-progress strong,
+.account-page .editor-progress span {
+  font-size: 11px !important;
+  font-weight: 600;
+}
+
+/* Customer forms: labels, fields, helper copy and upload controls. */
+.account-page .form-field label,
+.account-page .visibility-row > strong {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+.account-page .form-field label small {
+  font-size: 10px !important;
+  font-weight: 500;
+}
+.account-page .form-control,
+.account-page .form-select,
+.account-page input,
+.account-page select,
+.account-page textarea {
+  font-size: 13px !important;
+  font-weight: 500;
+}
+.account-page .field-hint {
+  font-size: 11px !important;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.account-page .upload-tile strong {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+.account-page .upload-tile small {
+  font-size: 10.5px !important;
+  font-weight: 500;
+}
+.account-page .visibility-row .form-check {
+  font-size: 11px !important;
+  font-weight: 500;
+}
+.account-page .repeat-remove {
+  font-size: 10.5px !important;
+  font-weight: 600;
+}
+.account-page .save-feedback {
+  font-size: 11px !important;
+  font-weight: 500;
+}
+.account-page .text-link {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+/* Customer tables, alerts and action buttons. */
+.account-page .table th,
+.account-page .table td {
+  font-size: 12px !important;
+  font-weight: 500;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+.account-page .table thead th {
+  font-weight: 700;
+}
+.account-page .btn {
+  font-size: 13px !important;
+  font-weight: 600;
+}
+.account-page .alert,
+.account-page .customer-review-lock {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* Customer sign-in and verification screens use the same measured scale. */
+.account-page .auth-subtitle {
+  font-size: 13px !important;
+  font-weight: 500;
+}
+.account-page .input-with-icon .form-control,
+.account-page .input-with-icon input,
+.account-page .password-input input {
+  font-size: 13px !important;
+  font-weight: 500;
+}
+.account-page .check-label,
+.account-page .auth-bottom {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+.account-page .auth-submit {
+  font-size: 13px !important;
+  font-weight: 700;
+}
+.account-page .auth-trust {
+  font-size: 10px !important;
+  font-weight: 500;
+}
+
+@media (max-width: 767.98px) {
+  .company-page .company-tabs a,
+  .person-page .person-tabs a {
+    font-size: 12px !important;
+    padding: 8px 10px;
+  }
+  .company-page .page-nav a,
+  .person-page .page-nav a {
+    font-size: 12px !important;
+  }
+  .company-page .facts-table td,
+  .person-page .facts-table td {
+    font-size: 11.5px !important;
+    padding: 6px 7px;
+  }
+  .account-page .account-nav a {
+    font-size: 12px !important;
+  }
+  .account-page .account-wrap {
+    font-size: 14px;
+  }
+}

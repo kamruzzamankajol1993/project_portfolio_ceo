@@ -143,40 +143,31 @@
               <table class="table admin-table align-middle mb-0">
                 <thead><tr><th>Title</th><th>Type</th><th>Submitted By</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody>
-                  @forelse($recentSubmissions as $submission)
-                    @php
-                      $submissionIsPersonal = $submission->profile?->profile_type === \App\Models\Profile::TYPE_PERSONAL;
-                      $submissionName = $submissionIsPersonal
-                        ? ($submission->personalDetails?->full_name ?: $submission->profile?->slug)
-                        : ($submission->companyDetails?->company_name ?: $submission->profile?->slug);
-                      $submissionCustomer = $submission->submittedByCustomer ?: $submission->createdByCustomer;
-                      $submissionStatusClass = match($submission->review_status) {
-                        'pending' => 'pill-review',
-                        'approved' => 'pill-published',
-                        'rejected', 'changes_requested' => 'pill-changes',
-                        default => 'pill-draft',
-                      };
-                      $submissionDate = $submission->submitted_at ?: $submission->updated_at;
-                    @endphp
-                    <tr>
-                      <td><span class="person-cell"><span class="mini-avatar {{ $submissionIsPersonal ? 'avatar-one' : 'logo-mini' }}">{{ strtoupper(mb_substr($submissionName ?: 'PR', 0, 2)) }}</span>{{ $submissionName ?: 'Untitled profile' }}</span></td>
-                      <td>{{ $submissionIsPersonal ? 'Entrepreneur' : 'Company' }}</td>
-                      <td>{{ $submissionCustomer?->email ?: '—' }}</td>
-                      <td>{{ $submissionDate?->format('d M Y') ?: '—' }}</td>
-                      <td><span class="status-pill {{ $submissionStatusClass }}">{{ ucwords(str_replace('_', ' ', $submission->review_status)) }}</span></td>
-                      <td>
-                        @if($submission->review_status === 'pending')
-                          <a href="{{ route('admin.profiles.review', $submission) }}" class="btn btn-sm btn-outline-secondary table-view">Review</a>
-                        @elseif($submission->profile)
-                          <a href="{{ route('admin.profiles.edit', $submission->profile) }}" class="btn btn-sm btn-outline-secondary table-view">View</a>
-                        @else
-                          <span class="text-muted">—</span>
-                        @endif
-                      </td>
-                    </tr>
-                  @empty
+                  @if($recentSubmissionRows->isNotEmpty())
+                    @foreach($recentSubmissionRows as $row)
+                      <tr>
+                        <td>
+                          <span class="person-cell">
+                            <span class="mini-avatar {{ $row['is_personal'] ? 'avatar-one' : 'logo-mini' }}">{{ strtoupper(mb_substr($row['name'], 0, 2)) }}</span>
+                            {{ $row['name'] }}
+                          </span>
+                        </td>
+                        <td>{{ $row['is_personal'] ? 'Entrepreneur' : 'Company' }}</td>
+                        <td>{{ $row['customer_email'] }}</td>
+                        <td>{{ $row['date_label'] }}</td>
+                        <td><span class="status-pill {{ $row['status_class'] }}">{{ $row['status_label'] }}</span></td>
+                        <td>
+                          @if($row['action_url'])
+                            <a href="{{ $row['action_url'] }}" class="btn btn-sm btn-outline-secondary table-view">{{ $row['action_label'] }}</a>
+                          @else
+                            <span class="text-muted">—</span>
+                          @endif
+                        </td>
+                      </tr>
+                    @endforeach
+                  @else
                     <tr><td colspan="6" class="text-center text-muted py-4">No customer profile submissions yet.</td></tr>
-                  @endforelse
+                  @endif
                 </tbody>
               </table>
             </div>

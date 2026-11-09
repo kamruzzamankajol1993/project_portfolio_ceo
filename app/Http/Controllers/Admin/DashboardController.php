@@ -143,7 +143,8 @@ class DashboardController extends Controller
             ? Customer::query()->latest('id')->limit(5)->get()
             : collect();
 
-        $recentSubmissions = $admin?->can('profiles.manage')
+        // Prepare plain display rows here so the Blade template only renders data.
+        $recentSubmissionRows = $admin?->can('profiles.manage')
             ? ProfileVersion::query()
                 ->where(function ($query): void {
                     $query->whereNotNull('submitted_by_customer_id')
@@ -159,6 +160,45 @@ class DashboardController extends Controller
                 ->orderByRaw('COALESCE(submitted_at, updated_at) DESC')
                 ->limit(5)
                 ->get()
+                ->map(function (ProfileVersion $version): array {
+                    $profile = $version->profile;
+                    $isPersonal = $profile?->profile_type === Profile::TYPE_PERSONAL;
+
+                    $detailName = $isPersonal
+                        ? $version->personalDetails?->full_name
+                        : $version->companyDetails?->company_name;
+
+                    $customer = $version->submittedByCustomer ?? $version->createdByCustomer;
+                    $status = (string) $version->review_status;
+                    $date = $version->submitted_at ?? $version->updated_at;
+
+                    $actionUrl = null;
+                    $actionLabel = null;
+
+                    if ($status === ProfileVersion::PENDING) {
+                        $actionUrl = route('admin.profiles.review', $version);
+                        $actionLabel = 'Review';
+                    } elseif ($profile) {
+                        $actionUrl = route('admin.profiles.edit', $profile);
+                        $actionLabel = 'View';
+                    }
+
+                    return [
+                        'name' => $detailName ?: $profile?->slug ?: $version->proposed_slug ?: 'Untitled profile',
+                        'is_personal' => $isPersonal,
+                        'customer_email' => $customer?->email ?: '—',
+                        'date_label' => $date?->format('d M Y') ?: '—',
+                        'status_label' => ucwords(str_replace('_', ' ', $status)),
+                        'status_class' => match ($status) {
+                            'pending' => 'pill-review',
+                            'approved' => 'pill-published',
+                            'rejected', 'changes_requested' => 'pill-changes',
+                            default => 'pill-draft',
+                        },
+                        'action_url' => $actionUrl,
+                        'action_label' => $actionLabel,
+                    ];
+                })
             : collect();
 
         $mediaTotals = MediaAsset::query()
@@ -216,7 +256,7 @@ class DashboardController extends Controller
             'personalChart' => $personalChart,
             'companyChart' => $companyChart,
             'chartGridVertical' => $chartGridVertical,
-            'recentSubmissions' => $recentSubmissions,
+            'recentSubmissionRows' => $recentSubmissionRows,
             'mediaAssetCount' => (int) ($mediaTotals->asset_count ?? 0),
             'totalMediaBytes' => $totalMediaBytes,
             'imageBytes' => $imageBytes,
