@@ -7,7 +7,7 @@
     <div>
         <div class="eyebrow">CUSTOMER ACCESS</div>
         <h1><span class="heading-icon"><i class="bi bi-person-check-fill"></i></span>Customer Accounts</h1>
-        <p>Review verified customer accounts and approve access to the customer dashboard.</p>
+        <p>Manage customer accounts, update details, control access and remove unwanted accounts.</p>
     </div>
 </div>
 
@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-4">
         <div class="module-panel h-100">
-            <div class="text-muted small">Approved accounts</div>
+            <div class="text-muted small">Active accounts</div>
             <div class="fs-3 fw-bold text-success">{{ $approvedCount }}</div>
         </div>
     </div>
@@ -48,7 +48,8 @@
             <option value="">All statuses</option>
             <option value="pending_verification" @selected(request('status') === 'pending_verification')>Pending verification</option>
             <option value="pending_approval" @selected(request('status') === 'pending_approval')>Pending approval</option>
-            <option value="active" @selected(request('status') === 'active')>Approved</option>
+            <option value="active" @selected(request('status') === 'active')>Active</option>
+            <option value="inactive" @selected(request('status') === 'inactive')>Inactive</option>
             <option value="rejected" @selected(request('status') === 'rejected')>Rejected</option>
         </select>
         <button class="module-secondary" type="submit">Filter</button>
@@ -57,4 +58,42 @@
 
     @include('admin.customer-accounts._table')
 </section>
+@endsection
+
+@section('scripts')
+<script>
+(() => {
+    const selectAll = document.getElementById('select-all-customers');
+    const selectedCount = document.getElementById('selected-customer-count');
+    const deleteButton = document.getElementById('bulk-delete-customers-button');
+    const countLabel = document.getElementById('bulk-delete-count');
+
+    const checkboxes = () => Array.from(document.querySelectorAll('.customer-row-checkbox'));
+
+    function refreshSelection() {
+        const items = checkboxes();
+        const selected = items.filter((checkbox) => checkbox.checked).length;
+
+        if (selectAll) {
+            selectAll.checked = items.length > 0 && selected === items.length;
+            selectAll.indeterminate = selected > 0 && selected < items.length;
+        }
+
+        if (selectedCount) selectedCount.textContent = String(selected);
+        if (countLabel) countLabel.textContent = String(selected);
+        if (deleteButton) deleteButton.disabled = selected === 0;
+    }
+
+    document.addEventListener('change', (event) => {
+        if (event.target.matches('#select-all-customers')) {
+            checkboxes().forEach((checkbox) => { checkbox.checked = event.target.checked; });
+            refreshSelection();
+        } else if (event.target.matches('.customer-row-checkbox')) {
+            refreshSelection();
+        }
+    });
+
+    refreshSelection();
+})();
+</script>
 @endsection

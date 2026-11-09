@@ -15,8 +15,8 @@
         "laravel/ui": "^4.6",
         "maatwebsite/excel": "^4.0",
         "brian2694/laravel-toastr": "^5.59",
-        "intervention/image": "^3.11",
-        "intervention/image-laravel": "^1.5",
+        "intervention/image": "^4.0",
+        "intervention/image-laravel": "^4.1.1",
         "mpdf/mpdf": "^8.3",
         "spatie/laravel-permission": "^8.3"
     },

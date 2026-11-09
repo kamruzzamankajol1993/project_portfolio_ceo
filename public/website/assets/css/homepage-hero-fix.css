@@ -423,3 +423,29 @@
     scroll-snap-align: start;
   }
 }
+
+/* =========================================================
+   Desktop hero copy alignment — keep all left-side content
+   inside the intended copy column, aligned with the page grid.
+   ========================================================= */
+@media (min-width: 992px) {
+  .home-page .home-hero-copy {
+    width: 100%;
+    max-width: 655px;
+    box-sizing: border-box;
+    padding-left: clamp(28px, 3.5vw, 48px);
+    padding-right: 0;
+  }
+}
+
+/* Prevent the title from becoming too wide for the copy column
+   on compact desktop and small laptop screens. */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .home-page .home-hero h1 {
+    font-size: clamp(40px, 4.2vw, 50px);
+  }
+  .home-page .home-hero .hero-lede {
+    font-size: 15px;
+    max-width: 100%;
+  }
+}

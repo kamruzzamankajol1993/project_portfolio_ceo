@@ -219,3 +219,24 @@
 .contact-admin-reply{display:flex;align-items:center;gap:10px;margin-top:13px;padding:11px 12px;border:1px solid #dce9f8;border-radius:10px;background:linear-gradient(110deg,#eef5ff,#f4efff)}.contact-admin-reply>i{font-size:18px;color:#6476d9}.contact-admin-reply>div{flex:1}.contact-admin-reply strong,.contact-admin-reply span{display:block}.contact-admin-reply strong{font-size:10px;color:#38577e}.contact-admin-reply span{font-size:9px;color:#8493aa;margin-top:2px}.contact-admin-reply .module-btn{font-size:10px;padding:7px 10px}
 @media(max-width:760px){.contact-inbox-filters{align-items:stretch;flex-direction:column}.contact-inbox-filters>.form-select,.contact-inbox-filters .module-search{width:100%;max-width:none}.extra-page-admin-stats,.contact-inbox-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.contact-detail-heading{flex-direction:column}.contact-sender-details{grid-template-columns:1fr}.contact-admin-reply{align-items:flex-start;flex-wrap:wrap}.contact-admin-reply .module-btn{margin-left:28px}}
 @media(max-width:520px){.extra-page-admin-stats,.contact-inbox-stats{grid-template-columns:1fr}.contact-inbox-stats .ops-stat,.extra-page-admin-stats .ops-stat{padding:8px 10px}.contact-inbox-filters .module-search{min-width:0}}
+
+
+/* Customer account management actions and bulk selection. */
+.customer-bulk-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:9px 0 12px}
+.customer-bulk-toolbar form{margin:0}
+.customer-bulk-delete{display:inline-flex;align-items:center;gap:7px;border:1px solid #f4cbd1;border-radius:9px;background:#fff1f3;color:#b52d48;padding:8px 12px;font-size:12px;font-weight:750;transition:.15s}
+.customer-bulk-delete:hover:not(:disabled){background:#ffe2e7;border-color:#edabb7}
+.customer-bulk-delete:disabled{opacity:.45;cursor:not-allowed}
+.customer-select-cell{width:36px;min-width:36px;text-align:center!important}
+.customer-select-cell input{width:15px;height:15px;accent-color:#2479e8;cursor:pointer;vertical-align:middle}
+.customer-accounts-table{min-width:850px}
+.customer-row-actions{gap:5px}
+.customer-status-action,.customer-status-locked{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;min-width:29px;border-radius:8px;border:1px solid #cdebd9;background:#e9f9ef;color:#16834c;padding:0;font-size:14px;cursor:pointer;transition:.15s}
+.customer-status-action.is-activate:hover{background:#d5f5e2;border-color:#a8e2be;transform:translateY(-1px)}
+.customer-status-action.is-deactivate{background:#fff3e9;border-color:#f6dfc8;color:#b96b20}
+.customer-status-action.is-deactivate:hover{background:#ffe8d4;border-color:#efc79f;transform:translateY(-1px)}
+.customer-status-locked{background:#f3f5f8;border-color:#e3e8ef;color:#9aa7b8;cursor:not-allowed}
+.customer-row-actions form{margin:0;display:inline-flex}
+.customer-account-meta{display:flex;gap:12px 24px;flex-wrap:wrap;padding:12px 14px;background:#f5f8fd;border:1px solid #e5edf7;border-radius:11px;color:#62738c;font-size:12px}
+.customer-account-meta strong{color:#2d4567}
+@media(max-width:700px){.customer-bulk-toolbar{align-items:flex-start}.customer-accounts-table{min-width:850px}.customer-account-meta{gap:8px 14px}}

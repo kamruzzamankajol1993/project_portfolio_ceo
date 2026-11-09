@@ -144,8 +144,13 @@ Route::prefix('admin')->name('admin.')->middleware(\App\Http\Middleware\RecordAd
         Route::delete('/contact-messages/{contactMessage}', [ContactMessageController::class, 'destroy'])->middleware('can:contact-messages.manage')->name('contact-messages.destroy');
 
         Route::get('/customer-accounts', [CustomerAccountController::class, 'index'])->middleware('can:customers.manage')->name('customer-accounts.index');
+        Route::delete('/customer-accounts/bulk-delete', [CustomerAccountController::class, 'bulkDestroy'])->middleware('can:customers.manage')->name('customer-accounts.bulk-destroy');
+        Route::get('/customer-accounts/{customer}/edit', [CustomerAccountController::class, 'edit'])->middleware('can:customers.manage')->name('customer-accounts.edit');
+        Route::put('/customer-accounts/{customer}', [CustomerAccountController::class, 'update'])->middleware('can:customers.manage')->name('customer-accounts.update');
+        Route::post('/customer-accounts/{customer}/toggle-status', [CustomerAccountController::class, 'toggleStatus'])->middleware('can:customers.manage')->name('customer-accounts.toggle-status');
         Route::post('/customer-accounts/{customer}/approve', [CustomerAccountController::class, 'approve'])->middleware('can:customers.manage')->name('customer-accounts.approve');
         Route::post('/customer-accounts/{customer}/reject', [CustomerAccountController::class, 'reject'])->middleware('can:customers.manage')->name('customer-accounts.reject');
+        Route::delete('/customer-accounts/{customer}', [CustomerAccountController::class, 'destroy'])->middleware('can:customers.manage')->name('customer-accounts.destroy');
 
         Route::get('/profile-requests', [AdminProfileAccessRequestController::class, 'index'])->middleware('can:profile-requests.manage')->name('profile-requests.index');
         Route::post('/profile-requests/{profileRequest}/approve', [AdminProfileAccessRequestController::class, 'approve'])->middleware('can:profile-requests.manage')->name('profile-requests.approve');
